@@ -71,53 +71,33 @@ const Header = ({ language, setLanguage, translations }) => {
               </div>
             </Link>
 
-            <div className="hidden lg:flex items-center gap-4 xl:gap-6">
-              {/* Weather & Time Display with Icons */}
-              <div className="flex items-center gap-3 xl:gap-4">
-                {/* Temperature */}
-                <div className="flex items-center gap-2 px-2.5 xl:px-3 py-1.5 bg-gradient-to-r from-orange-50 to-red-50 rounded-lg border border-orange-100">
-                  <div className="w-6 h-6 xl:w-7 xl:h-7 rounded-lg bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center">
-                    <Thermometer className="w-3.5 h-3.5 xl:w-4 xl:h-4 text-white" />
-                  </div>
-                  <span className="font-semibold text-orange-600 text-xs xl:text-sm">
-                    25°C
-                  </span>
+            {/* Weather & Time Display with Icons */}
+            <div className="hidden lg:flex items-center gap-3 xl:gap-4">
+              {/* Temperature */}
+              <div className="flex items-center gap-2 px-2.5 xl:px-3 py-1.5 bg-gradient-to-r from-orange-50 to-red-50 rounded-lg border border-orange-100">
+                <div className="w-6 h-6 xl:w-7 xl:h-7 rounded-lg bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center">
+                  <Thermometer className="w-3.5 h-3.5 xl:w-4 xl:h-4 text-white" />
                 </div>
+                <span className="font-semibold text-orange-600 text-xs xl:text-sm">
+                  25°C
+                </span>
+              </div>
 
-                {/* Time */}
-                <div className="flex items-center gap-2 px-2.5 xl:px-3 py-1.5 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
-                  <div className="w-6 h-6 xl:w-7 xl:h-7 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
-                    <Clock className="w-3.5 h-3.5 xl:w-4 xl:h-4 text-white" />
-                  </div>
-                  <span className="font-semibold text-blue-600 text-xs xl:text-sm">
-                    {new Date().toLocaleTimeString("uz-UZ", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </span>
+              {/* Time */}
+              <div className="flex items-center gap-2 px-2.5 xl:px-3 py-1.5 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
+                <div className="w-6 h-6 xl:w-7 xl:h-7 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
+                  <Clock className="w-3.5 h-3.5 xl:w-4 xl:h-4 text-white" />
                 </div>
+                <span className="font-semibold text-blue-600 text-xs xl:text-sm">
+                  {new Date().toLocaleTimeString("uz-UZ", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </span>
               </div>
             </div>
 
             {/* Mobile menu button and language switcher */}
-            <div className="flex items-center gap-2">
-              {/* Mobile language switcher */}
-              <button
-                onClick={toggleLanguage}
-                className="md:hidden bg-gray-50 hover:bg-gray-100 text-gray-700 px-2.5 py-1.5 rounded-lg text-xs flex items-center gap-1.5 transition-colors border border-gray-200"
-              >
-                <FaGlobe className="text-blue-600 text-xs" />
-                <span>{language === "uz" ? "UZ" : "RU"}</span>
-              </button>
-
-              {/* Mobile menu button */}
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden text-gray-700 hover:text-gray-900 p-2 text-lg sm:text-xl transition-colors"
-              >
-                {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
-              </button>
-            </div>
           </div>
         </div>
       </div>
