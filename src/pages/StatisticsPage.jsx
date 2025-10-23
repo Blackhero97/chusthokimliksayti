@@ -1,6 +1,24 @@
+import { useState, useEffect } from "react";
 import { BarChart3, TrendingUp, Activity, Zap } from "lucide-react";
+import {
+  generateDynamicStats,
+  formatStatValue,
+  UPDATE_INTERVAL,
+} from "../utils/dynamicStats";
 
 const StatisticsPage = ({ language }) => {
+  // Dynamic statistics state
+  const [dynamicStats, setDynamicStats] = useState(generateDynamicStats());
+
+  // Update statistics every 30 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDynamicStats(generateDynamicStats());
+    }, UPDATE_INTERVAL);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const statsData = [
     {
       category:
@@ -8,13 +26,13 @@ const StatisticsPage = ({ language }) => {
       stats: [
         {
           label: language === "uz" ? "Axlat mashinalar" : "Мусоровозы",
-          value: "20+",
+          value: formatStatValue(dynamicStats.wasteVehicles, "plus"),
           icon: "🚛",
         },
         {
           label:
             language === "uz" ? "Kunlik yo'nalishlar" : "Ежедневных маршрутов",
-          value: "45",
+          value: formatStatValue(dynamicStats.dailyRoutes),
           icon: "📍",
         },
         {
@@ -22,12 +40,12 @@ const StatisticsPage = ({ language }) => {
             language === "uz"
               ? "To'plangan chiqindi (tonna)"
               : "Собрано отходов (тонн)",
-          value: "1,250",
+          value: formatStatValue(dynamicStats.wasteCollected).replace("+", ""),
           icon: "♻️",
         },
         {
           label: language === "uz" ? "Samaradorlik" : "Эффективность",
-          value: "98%",
+          value: formatStatValue(dynamicStats.wasteEfficiency, "percentage"),
           icon: "📊",
         },
       ],
@@ -39,23 +57,23 @@ const StatisticsPage = ({ language }) => {
         {
           label:
             language === "uz" ? "Harorat sensorlari" : "Температурных датчиков",
-          value: "50+",
+          value: formatStatValue(dynamicStats.temperatureSensors, "plus"),
           icon: "🌡️",
         },
         {
           label: language === "uz" ? "Maktablar" : "Школ",
-          value: "15",
+          value: formatStatValue(dynamicStats.schools),
           icon: "🏫",
         },
         {
           label: language === "uz" ? "Bolalar bog'chalari" : "Детских садов",
-          value: "12",
+          value: formatStatValue(dynamicStats.kindergartens),
           icon: "🎨",
         },
         {
           label:
             language === "uz" ? "Kunlik tekshiruvlar" : "Ежедневных проверок",
-          value: "150+",
+          value: formatStatValue(dynamicStats.dailyChecks, "plus"),
           icon: "✅",
         },
       ],
@@ -66,23 +84,23 @@ const StatisticsPage = ({ language }) => {
       stats: [
         {
           label: language === "uz" ? "Avtobuslar" : "Автобусов",
-          value: "35",
+          value: formatStatValue(dynamicStats.buses),
           icon: "🚌",
         },
         {
           label:
             language === "uz" ? "Yo'lovchilar (kunlik)" : "Пассажиров (в день)",
-          value: "8,500+",
+          value: formatStatValue(dynamicStats.dailyPassengers, "large"),
           icon: "👥",
         },
         {
           label: language === "uz" ? "Marshrutlar" : "Маршрутов",
-          value: "12",
+          value: formatStatValue(dynamicStats.routes),
           icon: "🗺️",
         },
         {
           label: language === "uz" ? "Vaqtida kelish" : "Своевременность",
-          value: "94%",
+          value: formatStatValue(dynamicStats.punctuality, "percentage"),
           icon: "⏱️",
         },
       ],
@@ -92,22 +110,22 @@ const StatisticsPage = ({ language }) => {
       stats: [
         {
           label: language === "uz" ? "Yashil maydon (ga)" : "Зеленых зон (га)",
-          value: "120",
+          value: formatStatValue(dynamicStats.greenArea),
           icon: "🌳",
         },
         {
           label: language === "uz" ? "Namlik sensorlari" : "Датчиков влажности",
-          value: "45",
+          value: formatStatValue(dynamicStats.moistureSensors),
           icon: "💧",
         },
         {
           label: language === "uz" ? "Suv tejash" : "Экономия воды",
-          value: "35%",
+          value: formatStatValue(dynamicStats.waterSaving, "percentage"),
           icon: "💰",
         },
         {
           label: language === "uz" ? "Avtomatik sug'orish" : "Автополив",
-          value: "24/7",
+          value: dynamicStats.autoIrrigation,
           icon: "🔄",
         },
       ],
@@ -117,19 +135,19 @@ const StatisticsPage = ({ language }) => {
       stats: [
         {
           label: language === "uz" ? "Oylik qo'ng'iroqlar" : "Звонков в месяц",
-          value: "1,200+",
+          value: formatStatValue(dynamicStats.monthlyCalls, "large"),
           icon: "📞",
         },
         {
           label:
             language === "uz" ? "Hal qilingan muammolar" : "Решенных проблем",
-          value: "95%",
+          value: formatStatValue(dynamicStats.solvedProblems, "percentage"),
           icon: "✓",
         },
         {
           label:
             language === "uz" ? "O'rtacha javob vaqti" : "Среднее время ответа",
-          value: "2 soat",
+          value: dynamicStats.responseTime,
           icon: "⏰",
         },
         {
@@ -137,7 +155,7 @@ const StatisticsPage = ({ language }) => {
             language === "uz"
               ? "Qoniqish darajasi"
               : "Уровень удовлетворенности",
-          value: "92%",
+          value: formatStatValue(dynamicStats.satisfaction, "percentage"),
           icon: "😊",
         },
       ],
@@ -165,22 +183,14 @@ const StatisticsPage = ({ language }) => {
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             <div
               className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-lg border border-white/40 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group"
-              style={{
-                boxShadow:
-                  "inset 0 2px 4px 0 rgba(0, 0, 0, 0.02), 0 8px 32px 0 rgba(59, 130, 246, 0.07)",
-              }}
+              data-aos="fade-right"
             >
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-600"></div>
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-blue-600"></div>
               <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/5 to-transparent rounded-3xl pointer-events-none"></div>
               <div className="relative z-10">
                 <div className="flex items-center gap-4 mb-6">
-                  <div
-                    className="w-16 h-16 bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl flex items-center justify-center"
-                    style={{
-                      boxShadow: "inset 0 1px 3px 0 rgba(0, 0, 0, 0.05)",
-                    }}
-                  >
-                    <BarChart3 className="w-8 h-8 text-blue-600" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
+                    <BarChart3 className="w-8 h-8 text-white" />
                   </div>
                   <div>
                     <div className="text-3xl font-bold text-gray-900">24/7</div>
@@ -196,22 +206,14 @@ const StatisticsPage = ({ language }) => {
 
             <div
               className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-lg border border-white/40 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group"
-              style={{
-                boxShadow:
-                  "inset 0 2px 4px 0 rgba(0, 0, 0, 0.02), 0 8px 32px 0 rgba(34, 197, 94, 0.08)",
-              }}
+              data-aos="fade-left"
             >
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-500 to-emerald-600"></div>
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-blue-600"></div>
               <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/5 to-transparent rounded-3xl pointer-events-none"></div>
               <div className="relative z-10">
                 <div className="flex items-center gap-4 mb-6">
-                  <div
-                    className="w-16 h-16 bg-gradient-to-br from-green-50 to-green-100 rounded-2xl flex items-center justify-center"
-                    style={{
-                      boxShadow: "inset 0 1px 3px 0 rgba(0, 0, 0, 0.05)",
-                    }}
-                  >
-                    <TrendingUp className="w-8 h-8 text-green-600" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
+                    <TrendingUp className="w-8 h-8 text-white" />
                   </div>
                   <div>
                     <div className="text-3xl font-bold text-gray-900">95%</div>
@@ -231,24 +233,30 @@ const StatisticsPage = ({ language }) => {
               <div
                 key={idx}
                 className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-lg border border-white/40 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group"
-                style={{
-                  boxShadow:
-                    "inset 0 2px 4px 0 rgba(0, 0, 0, 0.02), 0 8px 32px 0 rgba(100, 116, 139, 0.07)",
-                }}
+                data-aos="fade-up"
+                data-aos-delay={idx * 100}
               >
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-purple-600"></div>
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-blue-600"></div>
                 <div className="relative z-10">
-                  <h2 className="text-2xl font-bold mb-6 text-gray-900">
+                  <h2 className="text-2xl font-bold mb-6 text-gray-900 flex items-center gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                      <Activity className="w-5 h-5 text-white" />
+                    </div>
                     {section.category}
                   </h2>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                     {section.stats.map((stat, i) => (
-                      <div key={i} className="text-center">
-                        <div className="text-4xl mb-2">{stat.icon}</div>
-                        <div className="text-3xl font-bold text-gray-900 mb-1">
+                      <div
+                        key={i}
+                        className="group cursor-pointer bg-white rounded-xl border border-gray-100 p-5 hover:border-blue-200 hover:shadow-md transition-all duration-300 text-center"
+                      >
+                        <div className="w-12 h-12 mx-auto mb-3 bg-gray-50 rounded-lg flex items-center justify-center text-2xl group-hover:bg-blue-50 transition-colors duration-300">
+                          {stat.icon}
+                        </div>
+                        <div className="text-2xl font-bold text-gray-900 mb-1">
                           {stat.value}
                         </div>
-                        <div className="text-sm text-gray-600">
+                        <div className="text-xs text-gray-500 font-medium leading-tight">
                           {stat.label}
                         </div>
                       </div>

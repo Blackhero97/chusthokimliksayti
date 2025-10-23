@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Phone, Mail, Clock, User, Building } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Building } from "lucide-react";
 
 const ContactPage = ({ language, translations }) => {
   const t = translations[language];
@@ -61,33 +61,6 @@ const ContactPage = ({ language, translations }) => {
     },
   ];
 
-  const management = [
-    {
-      position: language === "uz" ? "Shahar hokimi" : "Хоким города",
-      name: "A. Karimov",
-      phone: "+998 (69) 544-12-34",
-      email: "hokim@chust.gov.uz",
-      reception:
-        language === "uz" ? "Chorshanba 14:00-16:00" : "Среда 14:00-16:00",
-    },
-    {
-      position: language === "uz" ? "Hokim o'rinbosari" : "Заместитель хокима",
-      name: "B. Umarov",
-      phone: "+998 (69) 544-12-35",
-      email: "deputy@chust.gov.uz",
-      reception:
-        language === "uz" ? "Seshanba 10:00-12:00" : "Вторник 10:00-12:00",
-    },
-    {
-      position: language === "uz" ? "Kotiб" : "Секретарь",
-      name: "C. Nazarova",
-      phone: "+998 (69) 544-12-36",
-      email: "secretary@chust.gov.uz",
-      reception:
-        language === "uz" ? "Har kuni 9:00-18:00" : "Ежедневно 9:00-18:00",
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4">
@@ -110,7 +83,7 @@ const ContactPage = ({ language, translations }) => {
             return (
               <div
                 key={index}
-                className={`bg-white/90 backdrop-blur-md rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 text-center border border-white/40 group hover:-translate-y-1 relative overflow-hidden animate-scaleIn ${delays[index]}`}
+                className={`cursor-pointer bg-white/90 backdrop-blur-md rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 text-center border border-white/40 group hover:-translate-y-1 relative overflow-hidden animate-scaleIn ${delays[index]}`}
                 style={{
                   boxShadow:
                     "inset 0 2px 4px 0 rgba(0, 0, 0, 0.02), 0 8px 32px 0 rgba(100, 116, 139, 0.07)",
@@ -266,58 +239,8 @@ const ContactPage = ({ language, translations }) => {
             </form>
           </div>
 
-          {/* Management and Office Hours */}
-          <div className="space-y-6">
-            {/* Management */}
-            <div
-              className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg border border-white/40 p-8 relative overflow-hidden"
-              style={{
-                boxShadow:
-                  "inset 0 2px 4px 0 rgba(0, 0, 0, 0.02), 0 8px 32px 0 rgba(100, 116, 139, 0.07)",
-              }}
-            >
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-500 to-emerald-600"></div>
-              <div className="relative z-10">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  {language === "uz" ? "Rahbariyat" : "Руководство"}
-                </h2>
-                <div className="space-y-6">
-                  {management.map((person, index) => (
-                    <div
-                      key={index}
-                      className="border-l-4 border-green-500 pl-6 py-4"
-                    >
-                      <h3 className="font-bold text-gray-800 mb-2">
-                        {person.position}
-                      </h3>
-                      <div className="space-y-2 text-sm">
-                        <div className="flex items-center space-x-2">
-                          <User className="w-4 h-4 text-gray-500" />
-                          <span className="font-medium text-gray-700">
-                            {person.name}
-                          </span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Phone className="w-4 h-4 text-gray-500" />
-                          <span className="text-gray-600">{person.phone}</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Mail className="w-4 h-4 text-gray-500" />
-                          <span className="text-gray-600">{person.email}</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Clock className="w-4 h-4 text-gray-500" />
-                          <span className="text-gray-600">
-                            {person.reception}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
+          {/* Map section */}
+          <div>
             {/* Map placeholder */}
             <div
               className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg border border-white/40 p-8 relative overflow-hidden"
@@ -331,18 +254,32 @@ const ContactPage = ({ language, translations }) => {
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">
                   {language === "uz" ? "Joylashuv" : "Местоположение"}
                 </h2>
-                <div className="bg-gray-100 rounded-xl h-64 flex items-center justify-center border border-gray-200">
-                  <div className="text-center">
-                    <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-600">
-                      {language === "uz"
-                        ? "Xarita yuklanmoqda..."
-                        : "Загрузка карты..."}
-                    </p>
-                    <p className="text-sm text-gray-500 mt-2">
-                      {t.contact.fullAddress}
-                    </p>
-                  </div>
+                <div className="relative overflow-hidden rounded-xl border border-gray-200">
+                  <a
+                    href="https://yandex.uz/maps/org/14845187090/?utm_medium=mapframe&utm_source=maps"
+                    className="text-gray-600 text-xs absolute top-1 left-1 z-10 bg-white/80 px-2 py-1 rounded"
+                  >
+                    Хокимият Чустского района
+                  </a>
+                  <a
+                    href="https://yandex.uz/maps/189938/chust/category/administration/184105658/?utm_medium=mapframe&utm_source=maps"
+                    className="text-gray-600 text-xs absolute top-7 left-1 z-10 bg-white/80 px-2 py-1 rounded"
+                  >
+                    Администрация в Чусте
+                  </a>
+                  <iframe
+                    src="https://yandex.uz/map-widget/v1/?ll=71.228308%2C40.997982&mode=search&oid=14845187090&ol=biz&z=16.63"
+                    width="100%"
+                    height="400"
+                    frameBorder="0"
+                    allowFullScreen={true}
+                    className="w-full"
+                    title={
+                      language === "uz"
+                        ? "Chust tuman hokimligi xaritasi"
+                        : "Карта хокимията Чустского района"
+                    }
+                  />
                 </div>
               </div>
             </div>

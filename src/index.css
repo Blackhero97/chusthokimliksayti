@@ -135,3 +135,25 @@ body {
 .delay-600 {
   animation-delay: 0.6s;
 }
+
+/* Global cursor pointer for interactive cards and buttons */
+.group:hover,
+.hover\:shadow-xl:hover,
+.hover\:shadow-lg:hover,
+.hover\:shadow-2xl:hover,
+.hover\:-translate-y-1:hover,
+.hover\:-translate-y-2:hover,
+.transition-all:hover,
+button:hover,
+[role="button"]:hover {
+  cursor: pointer;
+}
+
+/* Ensure all cards with hover effects have pointer cursor */
+.bg-white\/90.hover\:shadow-xl,
+.bg-white\/90.hover\:shadow-lg,
+.bg-white\/90.hover\:shadow-2xl,
+.bg-white.hover\:shadow-md,
+.bg-white.hover\:border-blue-200 {
+  cursor: pointer;
+}

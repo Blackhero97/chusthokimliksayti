@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Activity,
@@ -42,6 +42,11 @@ import {
 import { Badge } from "../components/ui/badge";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
+import {
+  generateDynamicStats,
+  formatStatValue,
+  UPDATE_INTERVAL,
+} from "../utils/dynamicStats";
 
 const HomePage = ({ language, translations }) => {
   const t = translations[language];
@@ -51,6 +56,18 @@ const HomePage = ({ language, translations }) => {
     subject: "Shikoyat",
     message: "",
   });
+
+  // Dynamic statistics state
+  const [dynamicStats, setDynamicStats] = useState(generateDynamicStats());
+
+  // Update statistics every 30 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDynamicStats(generateDynamicStats());
+    }, UPDATE_INTERVAL);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -77,20 +94,20 @@ const HomePage = ({ language, translations }) => {
       gradient: "from-blue-500 to-cyan-600",
     },
     {
-      number: "1000+",
+      number: formatStatValue(dynamicStats.sensors, "plus"),
       label: language === "uz" ? "Sensorlar" : "Датчики",
       icon: Settings,
       gradient: "from-green-500 to-emerald-600",
     },
     {
-      number: "50+",
-      label: language === "uz" ? "Mahallalar" : "Районы",
+      number: formatStatValue(dynamicStats.services, "plus"),
+      label: language === "uz" ? "Xizmatlar" : "Услуги",
       icon: MapPin,
       gradient: "from-yellow-500 to-orange-600",
     },
     {
-      number: "99.9%",
-      label: language === "uz" ? "Ishonchlilik" : "Надежность",
+      number: formatStatValue(dynamicStats.efficiency, "percentage"),
+      label: language === "uz" ? "Samaradorlik" : "Эффективность",
       icon: Shield,
       gradient: "from-purple-500 to-indigo-600",
     },
@@ -368,33 +385,6 @@ const HomePage = ({ language, translations }) => {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
               {stats.map((stat, index) => {
-                const cardColors = [
-                  {
-                    gradient: "from-blue-500 to-cyan-500",
-                    iconBg: "from-blue-50 to-cyan-50",
-                    iconColor: "text-blue-600",
-                    topLine: "from-blue-500 to-cyan-600",
-                  },
-                  {
-                    gradient: "from-purple-500 to-pink-500",
-                    iconBg: "from-purple-50 to-pink-50",
-                    iconColor: "text-purple-600",
-                    topLine: "from-purple-500 to-pink-600",
-                  },
-                  {
-                    gradient: "from-cyan-500 to-teal-500",
-                    iconBg: "from-cyan-50 to-teal-50",
-                    iconColor: "text-cyan-600",
-                    topLine: "from-cyan-500 to-teal-600",
-                  },
-                  {
-                    gradient: "from-indigo-500 to-purple-500",
-                    iconBg: "from-indigo-50 to-purple-50",
-                    iconColor: "text-indigo-600",
-                    topLine: "from-indigo-500 to-purple-600",
-                  },
-                ];
-                const color = cardColors[index % 4];
                 const delays = [
                   "delay-100",
                   "delay-200",
@@ -405,46 +395,26 @@ const HomePage = ({ language, translations }) => {
                 return (
                   <div
                     key={index}
-                    className={`group bg-white/90 backdrop-blur-md rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-white/50 hover:border-white/80 relative overflow-hidden hover:-translate-y-2 animate-scaleIn ${delays[index]}`}
-                    style={{
-                      boxShadow:
-                        "inset 0 2px 4px 0 rgba(0, 0, 0, 0.02), 0 8px 32px 0 rgba(100, 116, 139, 0.08)",
-                    }}
+                    className={`group cursor-pointer bg-white/90 backdrop-blur-md rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-blue-200 relative overflow-hidden hover:-translate-y-1 animate-scaleIn ${delays[index]}`}
                   >
                     {/* Top gradient line */}
-                    <div
-                      className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${color.topLine}`}
-                    ></div>
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-blue-600"></div>
 
                     {/* Glass overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/5 to-transparent rounded-2xl pointer-events-none"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/5 to-transparent rounded-2xl pointer-events-none"></div>
 
-                    {/* Icon with 3D effect */}
-                    <div
-                      className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${color.iconBg} ${color.iconColor} flex items-center justify-center mx-auto mb-5 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 relative z-10`}
-                      style={{
-                        boxShadow:
-                          "inset 0 2px 6px 0 rgba(255, 255, 255, 0.8), inset 0 -2px 4px 0 rgba(0, 0, 0, 0.08), 0 8px 24px 0 rgba(0, 0, 0, 0.12)",
-                      }}
-                    >
-                      <div className="relative">
-                        <stat.icon className="h-9 w-9" />
-                        {/* Icon glow effect */}
-                        <div
-                          className={`absolute inset-0 bg-gradient-to-br ${color.gradient} opacity-20 blur-xl group-hover:opacity-40 transition-opacity duration-500`}
-                        ></div>
-                      </div>
+                    {/* Icon with clean design */}
+                    <div className="w-16 h-16 rounded-xl bg-gray-50 group-hover:bg-blue-50 flex items-center justify-center mx-auto mb-4 transition-all duration-300 relative z-10">
+                      <stat.icon className="h-8 w-8 text-gray-600 group-hover:text-blue-600 transition-colors duration-300" />
                     </div>
 
-                    {/* Number with gradient text */}
-                    <div
-                      className={`text-4xl font-bold bg-gradient-to-r ${color.gradient} bg-clip-text text-transparent text-center mb-3 relative z-10 group-hover:scale-110 transition-all duration-300`}
-                    >
+                    {/* Number */}
+                    <div className="text-3xl font-bold text-gray-900 text-center mb-2 relative z-10 group-hover:text-blue-600 transition-colors duration-300">
                       {stat.number}
                     </div>
 
-                    {/* Label with better typography */}
-                    <div className="text-sm font-semibold text-gray-700 text-center relative z-10 tracking-wide uppercase">
+                    {/* Label */}
+                    <div className="text-sm font-medium text-gray-600 text-center relative z-10 leading-tight">
                       {stat.label}
                     </div>
                   </div>
@@ -472,7 +442,7 @@ const HomePage = ({ language, translations }) => {
 
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <Card
-              className="bg-white/90 backdrop-blur-md rounded-2xl border border-white/20 hover:border-blue-200/50 shadow-sm hover:shadow-xl transition-all duration-300 group relative overflow-hidden hover:-translate-y-1"
+              className="cursor-pointer bg-white/90 backdrop-blur-md rounded-2xl border border-white/20 hover:border-blue-200/50 shadow-sm hover:shadow-xl transition-all duration-300 group relative overflow-hidden hover:-translate-y-1"
               style={{
                 boxShadow:
                   "inset 0 2px 4px 0 rgba(0, 0, 0, 0.02), 0 8px 32px 0 rgba(31, 38, 135, 0.07)",
@@ -502,7 +472,7 @@ const HomePage = ({ language, translations }) => {
             </Card>
 
             <Card
-              className="bg-white/90 backdrop-blur-md rounded-2xl border border-white/20 hover:border-green-200/50 shadow-md hover:shadow-xl transition-all duration-300 group relative overflow-hidden hover:-translate-y-1"
+              className="cursor-pointer bg-white/90 backdrop-blur-md rounded-2xl border border-white/20 hover:border-green-200/50 shadow-md hover:shadow-xl transition-all duration-300 group relative overflow-hidden hover:-translate-y-1"
               style={{
                 boxShadow:
                   "inset 0 2px 4px 0 rgba(0, 0, 0, 0.02), 0 8px 32px 0 rgba(34, 197, 94, 0.08)",
@@ -537,7 +507,7 @@ const HomePage = ({ language, translations }) => {
             </Card>
 
             <Card
-              className="bg-white/90 backdrop-blur-md rounded-2xl border border-white/20 hover:border-purple-200/50 shadow-sm hover:shadow-xl transition-all duration-300 group relative overflow-hidden hover:-translate-y-1"
+              className="cursor-pointer bg-white/90 backdrop-blur-md rounded-2xl border border-white/20 hover:border-purple-200/50 shadow-sm hover:shadow-xl transition-all duration-300 group relative overflow-hidden hover:-translate-y-1"
               style={{
                 boxShadow:
                   "inset 0 2px 4px 0 rgba(0, 0, 0, 0.02), 0 8px 32px 0 rgba(168, 85, 247, 0.07)",

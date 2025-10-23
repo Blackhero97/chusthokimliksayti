@@ -1,12 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaBuilding, FaPhone, FaGlobe, FaBars, FaTimes } from "react-icons/fa";
 import { Thermometer, Clock } from "lucide-react";
+import {
+  getCurrentTime,
+  getCurrentTemperature,
+  UPDATE_INTERVAL,
+} from "../utils/dynamicStats";
 
 const Header = ({ language, setLanguage, translations }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [currentTime, setCurrentTime] = useState(getCurrentTime());
+  const [currentTemp, setCurrentTemp] = useState(getCurrentTemperature());
   const location = useLocation();
   const t = translations[language];
+
+  // Update time every minute and temperature every 30 seconds
+  useEffect(() => {
+    const timeInterval = setInterval(() => {
+      setCurrentTime(getCurrentTime());
+    }, 60000); // 1 minute
+
+    const tempInterval = setInterval(() => {
+      setCurrentTemp(getCurrentTemperature());
+    }, UPDATE_INTERVAL); // 30 seconds
+
+    return () => {
+      clearInterval(timeInterval);
+      clearInterval(tempInterval);
+    };
+  }, []);
 
   const navigation = [
     { name: t.nav.home, href: "/", key: "home" },
@@ -14,6 +37,7 @@ const Header = ({ language, setLanguage, translations }) => {
     { name: t.nav.services, href: "/xizmatlar", key: "services" },
     { name: t.nav.news, href: "/yangiliklar", key: "news" },
     { name: t.nav.statistics, href: "/statistika", key: "statistics" },
+    { name: t.nav.leadership, href: "/rahbariyat", key: "leadership" },
     { name: t.nav.mobile, href: "/mobil-ilova", key: "mobile" },
     { name: t.nav.contact, href: "/aloqa", key: "contact" },
   ];
@@ -58,8 +82,8 @@ const Header = ({ language, setLanguage, translations }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2 sm:py-3">
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center gap-2 sm:gap-3 group">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-600 rounded-lg flex items-center justify-center group-hover:bg-blue-700 transition-colors">
-                <FaBuilding className="text-base sm:text-xl text-white" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12  rounded-lg flex items-center justify-center  transition-colors">
+                <img src="/logo.png" alt="" />
               </div>
               <div>
                 <h1 className="text-sm sm:text-base md:text-lg font-bold text-gray-900 leading-tight">
@@ -79,7 +103,7 @@ const Header = ({ language, setLanguage, translations }) => {
                   <Thermometer className="w-3.5 h-3.5 xl:w-4 xl:h-4 text-white" />
                 </div>
                 <span className="font-semibold text-orange-600 text-xs xl:text-sm">
-                  25°C
+                  {currentTemp}°C
                 </span>
               </div>
 
@@ -89,10 +113,7 @@ const Header = ({ language, setLanguage, translations }) => {
                   <Clock className="w-3.5 h-3.5 xl:w-4 xl:h-4 text-white" />
                 </div>
                 <span className="font-semibold text-blue-600 text-xs xl:text-sm">
-                  {new Date().toLocaleTimeString("uz-UZ", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
+                  {currentTime}
                 </span>
               </div>
             </div>

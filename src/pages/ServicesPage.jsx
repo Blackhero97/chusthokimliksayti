@@ -196,7 +196,7 @@ const ServicesPage = ({ language }) => {
               return (
                 <div
                   key={index}
-                  className={`bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-white/40 relative overflow-hidden group animate-scaleIn ${
+                  className={`cursor-pointer bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-white/40 relative overflow-hidden group animate-scaleIn ${
                     delays[index % 6]
                   }`}
                   style={{
