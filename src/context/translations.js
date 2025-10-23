@@ -10,6 +10,11 @@ export const translations = {
     weather: "Chust",
     localTime: "Mahalliy vaqt",
 
+    // Header
+    header: {
+      menu: "Menyu",
+    },
+
     // Navigation
     nav: {
       home: "Bosh sahifa",
@@ -120,6 +125,11 @@ export const translations = {
     subtitle: "Система умного города",
     weather: "Чуст",
     localTime: "Местное время",
+
+    // Header
+    header: {
+      menu: "Меню",
+    },
 
     // Navigation
     nav: {

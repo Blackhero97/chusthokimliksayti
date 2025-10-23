@@ -29,6 +29,12 @@ import {
   Search,
   CheckCircle2,
   ArrowRight,
+  Wifi,
+  Cpu,
+  Database,
+  TrendingUp,
+  Gauge,
+  Globe,
 } from "lucide-react";
 
 import { Button } from "../components/ui/button";
@@ -92,24 +98,34 @@ const HomePage = ({ language, translations }) => {
       label: language === "uz" ? "Monitoring" : "Мониторинг",
       icon: Activity,
       gradient: "from-blue-500 to-cyan-600",
+      status: "online",
+      description:
+        language === "uz" ? "Uzluksiz kuzatuv" : "Непрерывное наблюдение",
     },
     {
       number: formatStatValue(dynamicStats.sensors, "plus"),
       label: language === "uz" ? "Sensorlar" : "Датчики",
-      icon: Settings,
+      icon: Wifi,
       gradient: "from-green-500 to-emerald-600",
+      status: "active",
+      description: language === "uz" ? "Faol sensorlar" : "Активные датчики",
     },
     {
       number: formatStatValue(dynamicStats.services, "plus"),
       label: language === "uz" ? "Xizmatlar" : "Услуги",
-      icon: MapPin,
+      icon: Globe,
       gradient: "from-yellow-500 to-orange-600",
+      status: "available",
+      description: language === "uz" ? "Mavjud xizmatlar" : "Доступные услуги",
     },
     {
       number: formatStatValue(dynamicStats.efficiency, "percentage"),
       label: language === "uz" ? "Samaradorlik" : "Эффективность",
-      icon: Shield,
+      icon: TrendingUp,
       gradient: "from-purple-500 to-indigo-600",
+      status: "optimal",
+      description:
+        language === "uz" ? "Tizim samaradorligi" : "Эффективность системы",
     },
   ];
 
@@ -296,7 +312,7 @@ const HomePage = ({ language, translations }) => {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <section className="py-20 md:py-28 relative overflow-hidden">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-28 relative overflow-hidden">
         {/* Government building background image */}
         <img
           src="/xokimlik.jpg"
@@ -347,43 +363,43 @@ const HomePage = ({ language, translations }) => {
         {/* Glass morphism overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-white/20 backdrop-blur-[2px]"></div>
 
-        <div className="max-w-6xl mx-auto px-6 relative z-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 mb-6 px-5 py-2 bg-blue-600 text-white text-sm font-medium rounded-full shadow-lg animate-fadeInDown">
+            <div className="inline-flex items-center gap-2 mb-4 sm:mb-6 px-3 sm:px-5 py-2 bg-blue-600 text-white text-xs sm:text-sm font-medium rounded-full shadow-lg animate-fadeInDown">
               {language === "uz"
                 ? "Raqamli O'zbekiston 2030"
                 : "Цифровой Узбекистан 2030"}
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-5 text-gray-900 tracking-tight animate-fadeInUp delay-100">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-3 sm:mb-4 md:mb-5 text-gray-900 tracking-tight animate-fadeInUp delay-100 leading-tight">
               {language === "uz" ? "Chust aqlli shahar" : "Чуст умный город"}
             </h1>
-            <p className="text-lg md:text-xl mb-6 text-gray-700 font-medium animate-fadeInUp delay-200">
+            <p className="text-lg sm:text-xl md:text-2xl mb-4 sm:mb-6 text-gray-700 font-medium animate-fadeInUp delay-200">
               {language === "uz" ? "Boshqaruv Tizimi" : "Система управления"}
             </p>
-            <p className="text-base md:text-lg text-gray-600 mb-10 leading-relaxed max-w-3xl mx-auto animate-fadeInUp delay-300">
+            <p className="text-sm sm:text-base md:text-lg text-gray-600 mb-6 sm:mb-8 md:mb-10 leading-relaxed max-w-3xl mx-auto animate-fadeInUp delay-300 px-2 sm:px-0">
               {language === "uz"
                 ? "Zamonaviy raqamli texnologiyalar asosida shahar infratuzilmasini boshqarish, aholining hayot sifatini yaxshilash va davlat xizmatlarini samarali ko'rsatish tizimi"
                 : "Система управления городской инфраструктурой на основе современных цифровых технологий, улучшения качества жизни населения и эффективного предоставления государственных услуг"}
             </p>
-            <div className="flex flex-wrap justify-center gap-4 mb-16 animate-fadeInUp delay-400">
-              <Link to="/xizmatlar">
-                <button className="group bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center gap-2.5 hover:-translate-y-1 hover:scale-105">
-                  <Eye className="w-5 h-5 group-hover:scale-110 transition-transform" />
+            <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mb-8 sm:mb-12 md:mb-16 animate-fadeInUp delay-400 px-4 sm:px-0">
+              <Link to="/xizmatlar" className="w-full sm:w-auto">
+                <button className="group bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-2.5 hover:-translate-y-1 hover:scale-105 w-full text-sm sm:text-base">
+                  <Eye className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
                   {language === "uz"
                     ? "Xizmatlarni ko'rish"
                     : "Посмотреть услуги"}
                 </button>
               </Link>
-              <Link to="/mobil-ilova">
-                <button className="group bg-white hover:bg-gray-50 text-gray-800 px-8 py-4 rounded-xl font-semibold border-2 border-gray-200 hover:border-blue-400 shadow-md hover:shadow-xl transition-all duration-300 flex items-center gap-2.5 hover:-translate-y-1">
-                  <Download className="w-5 h-5 group-hover:scale-110 transition-transform" />
+              <Link to="/mobil-ilova" className="w-full sm:w-auto">
+                <button className="group bg-white hover:bg-gray-50 text-gray-800 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold border-2 border-gray-200 hover:border-blue-400 shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2.5 hover:-translate-y-1 w-full text-sm sm:text-base">
+                  <Download className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
                   {language === "uz"
                     ? "Ilovani yuklab olish"
                     : "Скачать приложение"}
                 </button>
               </Link>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 max-w-5xl mx-auto px-2 sm:px-0">
               {stats.map((stat, index) => {
                 const delays = [
                   "delay-100",
@@ -392,57 +408,310 @@ const HomePage = ({ language, translations }) => {
                   "delay-400",
                 ];
 
+                const gradients = [
+                  "from-blue-500/20 to-cyan-500/20",
+                  "from-green-500/20 to-emerald-500/20",
+                  "from-yellow-500/20 to-orange-500/20",
+                  "from-purple-500/20 to-indigo-500/20",
+                ];
+
+                const iconColors = [
+                  "text-blue-600 group-hover:text-blue-700",
+                  "text-green-600 group-hover:text-green-700",
+                  "text-yellow-600 group-hover:text-orange-700",
+                  "text-purple-600 group-hover:text-indigo-700",
+                ];
+
+                const borderColors = [
+                  "hover:border-blue-300",
+                  "hover:border-green-300",
+                  "hover:border-orange-300",
+                  "hover:border-purple-300",
+                ];
+
                 return (
                   <div
                     key={index}
-                    className={`group cursor-pointer bg-white/90 backdrop-blur-md rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-blue-200 relative overflow-hidden hover:-translate-y-1 animate-scaleIn ${delays[index]}`}
+                    className={`group cursor-pointer bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl p-3 sm:p-4 md:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 ${borderColors[index]} relative overflow-hidden hover:-translate-y-1 sm:hover:-translate-y-2 animate-scaleIn ${delays[index]} hover:scale-105`}
                   >
-                    {/* Top gradient line */}
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-blue-600"></div>
+                    {/* Animated gradient background */}
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-br ${gradients[index]} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl`}
+                    ></div>
 
-                    {/* Glass overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/5 to-transparent rounded-2xl pointer-events-none"></div>
+                    {/* Top gradient line with animation */}
+                    <div
+                      className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${stat.gradient} group-hover:h-2 transition-all duration-300`}
+                    ></div>
 
-                    {/* Icon with clean design */}
-                    <div className="w-16 h-16 rounded-xl bg-gray-50 group-hover:bg-blue-50 flex items-center justify-center mx-auto mb-4 transition-all duration-300 relative z-10">
-                      <stat.icon className="h-8 w-8 text-gray-600 group-hover:text-blue-600 transition-colors duration-300" />
+                    {/* Floating particles effect */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-700">
+                      <div className="absolute top-4 left-4 w-1 h-1 bg-white rounded-full animate-pulse"></div>
+                      <div className="absolute top-8 right-6 w-1 h-1 bg-white rounded-full animate-pulse delay-300"></div>
+                      <div className="absolute bottom-6 left-6 w-1 h-1 bg-white rounded-full animate-pulse delay-500"></div>
                     </div>
 
-                    {/* Number */}
-                    <div className="text-3xl font-bold text-gray-900 text-center mb-2 relative z-10 group-hover:text-blue-600 transition-colors duration-300">
-                      {stat.number}
+                    {/* Glass overlay with enhanced effect */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/10 to-transparent rounded-3xl pointer-events-none group-hover:from-white/50"></div>
+
+                    {/* Icon with enhanced design */}
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-xl sm:rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 group-hover:from-white group-hover:to-gray-50 flex items-center justify-center mx-auto mb-2 sm:mb-3 md:mb-4 transition-all duration-500 relative z-10 group-hover:rotate-6 group-hover:scale-110">
+                      <stat.icon
+                        className={`h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 ${iconColors[index]} transition-all duration-500 group-hover:scale-110`}
+                      />
                     </div>
 
-                    {/* Label */}
-                    <div className="text-sm font-medium text-gray-600 text-center relative z-10 leading-tight">
+                    {/* Number with enhanced typography and counter animation */}
+                    <div
+                      className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 text-center mb-1 sm:mb-2 relative z-10 transition-all duration-500 group-hover:scale-110 tracking-tight`}
+                    >
+                      <span className="bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent group-hover:from-gray-900 group-hover:to-gray-700 transition-all duration-300">
+                        {stat.number}
+                      </span>
+                      {/* Live update indicator */}
+                      <div className="absolute -top-1 sm:-top-2 -right-1 sm:-right-2 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-red-500 rounded-full animate-pulse opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+
+                    {/* Mini progress visualization */}
+                    <div className="flex justify-center mb-1 sm:mb-2 space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      {[...Array(4)].map((_, i) => (
+                        <div
+                          key={i}
+                          className={`w-0.5 sm:w-1 h-4 sm:h-6 bg-gradient-to-t ${stat.gradient} rounded-full transform scale-y-0 group-hover:scale-y-100 transition-transform duration-700`}
+                          style={{ transitionDelay: `${i * 100}ms` }}
+                        ></div>
+                      ))}
+                    </div>
+
+                    {/* Label with improved design */}
+                    <div className="text-xs sm:text-sm font-semibold text-gray-600 text-center relative z-10 leading-tight group-hover:text-gray-700 transition-colors duration-300">
                       {stat.label}
+                    </div>
+
+                    {/* Real-time status indicator with pulse */}
+                    <div className="absolute top-2 sm:top-3 md:top-4 right-2 sm:right-3 md:right-4 flex items-center space-x-0.5 sm:space-x-1">
+                      <div
+                        className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${
+                          stat.status === "online"
+                            ? "bg-green-400"
+                            : stat.status === "active"
+                            ? "bg-blue-400"
+                            : stat.status === "available"
+                            ? "bg-yellow-400"
+                            : "bg-purple-400"
+                        } animate-pulse`}
+                      ></div>
+                      <div
+                        className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${
+                          stat.status === "online"
+                            ? "bg-green-300"
+                            : stat.status === "active"
+                            ? "bg-blue-300"
+                            : stat.status === "available"
+                            ? "bg-yellow-300"
+                            : "bg-purple-300"
+                        } opacity-70 animate-pulse delay-150`}
+                      ></div>
+                    </div>
+
+                    {/* Tooltip description */}
+                    <div className="absolute -bottom-10 sm:-bottom-12 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 sm:px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-20 max-w-32 sm:max-w-none text-center">
+                      {stat.description}
+                      <div className="absolute -top-0.5 sm:-top-1 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gray-900 rotate-45"></div>
+                    </div>
+
+                    {/* Data flow animation */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-700 pointer-events-none">
+                      <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-blue-400 rounded-full animate-ping"></div>
+                      <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-green-400 rounded-full animate-ping delay-300"></div>
+                      <div className="absolute bottom-1/4 left-3/4 w-1 h-1 bg-purple-400 rounded-full animate-ping delay-500"></div>
+                    </div>
+
+                    {/* Progress bar at bottom */}
+                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-200 rounded-b-3xl overflow-hidden">
+                      <div
+                        className={`h-full bg-gradient-to-r ${stat.gradient} transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-1000 ease-out`}
+                      ></div>
                     </div>
                   </div>
                 );
               })}
             </div>
           </div>
+
+          {/* Smart City Real-time Dashboard */}
+          <div className="max-w-6xl mx-auto mt-8 sm:mt-12 md:mt-16 lg:mt-20 px-4 sm:px-6">
+            <div className="text-center mb-6 sm:mb-8 md:mb-12">
+              <div className="inline-flex items-center space-x-1.5 sm:space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-semibold mb-3 sm:mb-4">
+                <Cpu className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span>
+                  {language === "uz"
+                    ? "Real-vaqt Ma'lumotlar"
+                    : "Данные в реальном времени"}
+                </span>
+                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-400 rounded-full animate-pulse"></div>
+              </div>
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 sm:mb-4 px-4">
+                {language === "uz"
+                  ? "Aqlli Shahar Boshqaruvi"
+                  : "Управление умным городом"}
+              </h2>
+            </div>
+
+            {/* Real-time Data Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8 md:mb-12">
+              {/* System Performance */}
+              <div className="bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 glow-border">
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
+                  <div className="flex items-center space-x-1.5 sm:space-x-2">
+                    <Gauge className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
+                    <span className="font-semibold text-gray-800 text-sm sm:text-base">
+                      {language === "uz"
+                        ? "Tizim Ishlashi"
+                        : "Производительность"}
+                    </span>
+                  </div>
+                  <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 rounded-full animate-pulse"></div>
+                </div>
+                <div className="space-y-2.5 sm:space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs sm:text-sm text-gray-600">
+                      CPU
+                    </span>
+                    <div className="flex items-center space-x-1.5 sm:space-x-2">
+                      <div className="w-16 sm:w-20 h-1.5 sm:h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-green-400 to-green-600 w-3/4 rounded-full"></div>
+                      </div>
+                      <span className="text-xs font-medium">75%</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs sm:text-sm text-gray-600">
+                      Memory
+                    </span>
+                    <div className="flex items-center space-x-1.5 sm:space-x-2">
+                      <div className="w-16 sm:w-20 h-1.5 sm:h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-blue-400 to-blue-600 w-2/3 rounded-full"></div>
+                      </div>
+                      <span className="text-xs font-medium">67%</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs sm:text-sm text-gray-600">
+                      Network
+                    </span>
+                    <div className="flex items-center space-x-1.5 sm:space-x-2">
+                      <div className="w-16 sm:w-20 h-1.5 sm:h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-purple-400 to-purple-600 w-5/6 rounded-full"></div>
+                      </div>
+                      <span className="text-xs font-medium">83%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Active Connections */}
+              <div className="bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 glow-border">
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
+                  <div className="flex items-center space-x-1.5 sm:space-x-2">
+                    <Wifi className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
+                    <span className="font-semibold text-gray-800 text-sm sm:text-base">
+                      {language === "uz"
+                        ? "Faol Ulanishlar"
+                        : "Активные подключения"}
+                    </span>
+                  </div>
+                  <div className="flex space-x-0.5 sm:space-x-1">
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse delay-150"></div>
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse delay-300"></div>
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-black text-green-600 mb-1 sm:mb-2">
+                    1,247
+                  </div>
+                  <div className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">
+                    Onlayn foydalanuvchilar
+                  </div>
+                  <div className="flex justify-center space-x-2 sm:space-x-4 text-xs">
+                    <div className="flex items-center space-x-1">
+                      <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-400 rounded-full"></div>
+                      <span>Desktop: 892</span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-400 rounded-full"></div>
+                      <span>Mobile: 355</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Data Processing */}
+              <div className="bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 glow-border">
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
+                  <div className="flex items-center space-x-1.5 sm:space-x-2">
+                    <Database className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" />
+                    <span className="font-semibold text-gray-800 text-sm sm:text-base">
+                      {language === "uz" ? "Ma'lumot Oqimi" : "Поток данных"}
+                    </span>
+                  </div>
+                  <div className="text-xs bg-purple-100 text-purple-600 px-1.5 sm:px-2 py-1 rounded-full">
+                    LIVE
+                  </div>
+                </div>
+                <div className="space-y-2.5 sm:space-y-3">
+                  <div className="flex justify-between text-xs sm:text-sm">
+                    <span className="text-gray-600">Sensor ma'lumotlari</span>
+                    <span className="font-medium text-purple-600">+2.4k/s</span>
+                  </div>
+                  <div className="flex justify-between text-xs sm:text-sm">
+                    <span className="text-gray-600">API so'rovlari</span>
+                    <span className="font-medium text-blue-600">+1.8k/s</span>
+                  </div>
+                  <div className="flex justify-between text-xs sm:text-sm">
+                    <span className="text-gray-600">
+                      Foydalanuvchi harakatlari
+                    </span>
+                    <span className="font-medium text-green-600">+892/s</span>
+                  </div>
+                  <div className="mt-3 sm:mt-4 h-12 sm:h-16 flex items-end justify-between space-x-0.5 sm:space-x-1">
+                    {[...Array(12)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="bg-gradient-to-t from-purple-400 to-purple-600 rounded-t w-2 sm:w-3 animate-pulse"
+                        style={{
+                          height: `${30 + Math.random() * 40}%`,
+                          animationDelay: `${i * 100}ms`,
+                        }}
+                      ></div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
-      <section className="py-24 bg-gradient-to-b from-white to-gray-50">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <div className="inline-block mb-5 px-5 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-b from-white to-gray-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-8 sm:mb-12 md:mb-16">
+            <div className="inline-block mb-3 sm:mb-4 md:mb-5 px-3 sm:px-4 md:px-5 py-2 bg-blue-100 text-blue-700 rounded-full text-xs sm:text-sm font-semibold">
               {language === "uz" ? "Ma'lumot" : "Информация"}
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-5 text-gray-900">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 md:mb-5 text-gray-900 px-4">
               {language === "uz" ? "Loyiha Haqida" : "О проекте"}
             </h2>
-            <p className="text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-base text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
               {language === "uz"
                 ? '"Chust aqlli shahar" tizimi O\'zbekiston Respublikasi Prezidentining "Raqamli O\'zbekiston - 2030" strategiyasi doirasida amalga oshirilayotgan yirik loyihadir.'
                 : 'Система "Чуст умный город" - крупный проект в рамках стратегии "Цифровой Узбекистан - 2030" Президента Республики Узбекистан.'}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-5xl mx-auto">
             <Card
-              className="cursor-pointer bg-white/90 backdrop-blur-md rounded-2xl border border-white/20 hover:border-blue-200/50 shadow-sm hover:shadow-xl transition-all duration-300 group relative overflow-hidden hover:-translate-y-1"
+              className="cursor-pointer bg-white/90 backdrop-blur-md rounded-xl sm:rounded-2xl border border-white/20 hover:border-blue-200/50 shadow-sm hover:shadow-xl transition-all duration-300 group relative overflow-hidden hover:-translate-y-1"
               style={{
                 boxShadow:
                   "inset 0 2px 4px 0 rgba(0, 0, 0, 0.02), 0 8px 32px 0 rgba(31, 38, 135, 0.07)",
@@ -451,19 +720,19 @@ const HomePage = ({ language, translations }) => {
               }}
             >
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-blue-600"></div>
-              <CardHeader className="pb-4 pt-8">
+              <CardHeader className="pb-3 sm:pb-4 pt-6 sm:pt-8 px-4 sm:px-6">
                 <div
-                  className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center text-blue-600 group-hover:scale-105 transition-transform duration-300"
+                  className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mx-auto mb-3 sm:mb-4 md:mb-5 rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center text-blue-600 group-hover:scale-105 transition-transform duration-300"
                   style={{ boxShadow: "inset 0 1px 3px 0 rgba(0, 0, 0, 0.05)" }}
                 >
-                  <Eye className="h-8 w-8" />
+                  <Eye className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8" />
                 </div>
-                <CardTitle className="text-center text-xl font-bold text-gray-900">
+                <CardTitle className="text-center text-lg sm:text-xl font-bold text-gray-900 px-2">
                   {language === "uz" ? "Maqsad" : "Цель"}
                 </CardTitle>
               </CardHeader>
-              <CardContent className="pt-0 px-6 pb-8">
-                <p className="text-gray-600 text-center leading-relaxed">
+              <CardContent className="pt-0 px-4 sm:px-6 pb-6 sm:pb-8">
+                <p className="text-gray-600 text-center leading-relaxed text-sm sm:text-base">
                   {language === "uz"
                     ? "Shahar infratuzilmasini raqamlashtirish va aholining hayot sifatini yaxshilash"
                     : "Цифровизация городской инфраструктуры и улучшение качества жизни населения"}
@@ -554,7 +823,7 @@ const HomePage = ({ language, translations }) => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {systemServices.map((service, index) => {
               const cardWatermarks = [
                 {
@@ -664,7 +933,7 @@ const HomePage = ({ language, translations }) => {
               return (
                 <Card
                   key={index}
-                  className="bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 group hover:-translate-y-1 relative overflow-hidden"
+                  className="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 group hover:-translate-y-1 relative overflow-hidden"
                   style={{
                     boxShadow:
                       "inset 0 1px 2px rgba(0,0,0,0.02), 0 4px 16px rgba(0,0,0,0.04)",
@@ -674,30 +943,30 @@ const HomePage = ({ language, translations }) => {
                   <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/5 to-transparent rounded-2xl pointer-events-none"></div>
                   {cardWatermarks[index].watermark}
 
-                  <CardHeader className="pb-4 pt-6 relative z-10">
+                  <CardHeader className="pb-3 sm:pb-4 pt-4 sm:pt-6 px-4 sm:px-6 relative z-10">
                     <div
-                      className={`w-14 h-14 rounded-2xl ${service.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
+                      className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl ${service.color} flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300`}
                       style={{
                         boxShadow: "inset 0 1px 2px rgba(0,0,0,0.04)",
                       }}
                     >
-                      <service.icon className="h-7 w-7" />
+                      <service.icon className="h-6 w-6 sm:h-7 sm:w-7" />
                     </div>
-                    <CardTitle className="text-lg font-bold mb-2 text-gray-900">
+                    <CardTitle className="text-base sm:text-lg font-bold mb-2 text-gray-900">
                       {service.title}
                     </CardTitle>
-                    <p className="text-sm text-gray-600 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
                       {service.description}
                     </p>
                   </CardHeader>
-                  <CardContent className="pt-0 px-6 pb-6 relative z-10">
-                    <ul className="space-y-2.5">
+                  <CardContent className="pt-0 px-4 sm:px-6 pb-4 sm:pb-6 relative z-10">
+                    <ul className="space-y-2 sm:space-y-2.5">
                       {service.features.map((feature, i) => (
                         <li
                           key={i}
-                          className="flex items-start gap-2.5 text-sm text-gray-600"
+                          className="flex items-start gap-2 sm:gap-2.5 text-xs sm:text-sm text-gray-600"
                         >
-                          <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></div>
+                          <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></div>
                           <span>{feature}</span>
                         </li>
                       ))}
@@ -995,7 +1264,7 @@ const HomePage = ({ language, translations }) => {
 
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-8 md:p-10">
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label className="text-sm font-medium text-gray-900 mb-2 block">
                     {language === "uz" ? "Ism Familiya" : "ФИО"}

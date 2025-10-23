@@ -119,6 +119,44 @@ const Header = ({ language, setLanguage, translations }) => {
             </div>
 
             {/* Mobile menu button and language switcher */}
+            <div className="flex items-center gap-3 lg:hidden">
+              {/* Language Switcher Mobile */}
+              <div className="flex bg-gray-50 rounded-lg p-1 border border-gray-200">
+                <button
+                  onClick={() => setLanguage("uz")}
+                  className={`px-2 py-1 text-xs font-medium rounded transition-all ${
+                    language === "uz"
+                      ? "bg-blue-600 text-white shadow-sm"
+                      : "text-gray-600 hover:text-blue-600"
+                  }`}
+                >
+                  UZ
+                </button>
+                <button
+                  onClick={() => setLanguage("ru")}
+                  className={`px-2 py-1 text-xs font-medium rounded transition-all ${
+                    language === "ru"
+                      ? "bg-blue-600 text-white shadow-sm"
+                      : "text-gray-600 hover:text-blue-600"
+                  }`}
+                >
+                  RU
+                </button>
+              </div>
+
+              {/* Mobile menu button */}
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors"
+                aria-label={t.header.menu}
+              >
+                {isMobileMenuOpen ? (
+                  <FaTimes className="w-5 h-5 text-gray-700" />
+                ) : (
+                  <FaBars className="w-5 h-5 text-gray-700" />
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>
