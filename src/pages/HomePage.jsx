@@ -332,42 +332,23 @@ const HomePage = ({ language, translations }) => {
 
         <div className="max-w-6xl mx-auto px-6 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
-            <div
-              data-aos="fade-down"
-              className="inline-flex items-center gap-2 mb-6 px-5 py-2 bg-blue-600 text-white text-sm font-medium rounded-full shadow-lg"
-            >
+            <div className="inline-flex items-center gap-2 mb-6 px-5 py-2 bg-blue-600 text-white text-sm font-medium rounded-full shadow-lg animate-fadeInDown">
               {language === "uz"
                 ? "Raqamli O'zbekiston 2030"
                 : "Цифровой Узбекистан 2030"}
             </div>
-            <h1
-              data-aos="fade-up"
-              data-aos-delay="100"
-              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-5 text-gray-900 tracking-tight"
-            >
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-5 text-gray-900 tracking-tight animate-fadeInUp delay-100">
               {language === "uz" ? "Chust aqlli shahar" : "Чуст умный город"}
             </h1>
-            <p
-              data-aos="fade-up"
-              data-aos-delay="200"
-              className="text-lg md:text-xl mb-6 text-gray-700 font-medium"
-            >
+            <p className="text-lg md:text-xl mb-6 text-gray-700 font-medium animate-fadeInUp delay-200">
               {language === "uz" ? "Boshqaruv Tizimi" : "Система управления"}
             </p>
-            <p
-              data-aos="fade-up"
-              data-aos-delay="300"
-              className="text-base md:text-lg text-gray-600 mb-10 leading-relaxed max-w-3xl mx-auto"
-            >
+            <p className="text-base md:text-lg text-gray-600 mb-10 leading-relaxed max-w-3xl mx-auto animate-fadeInUp delay-300">
               {language === "uz"
                 ? "Zamonaviy raqamli texnologiyalar asosida shahar infratuzilmasini boshqarish, aholining hayot sifatini yaxshilash va davlat xizmatlarini samarali ko'rsatish tizimi"
                 : "Система управления городской инфраструктурой на основе современных цифровых технологий, улучшения качества жизни населения и эффективного предоставления государственных услуг"}
             </p>
-            <div
-              data-aos="fade-up"
-              data-aos-delay="400"
-              className="flex flex-wrap justify-center gap-4 mb-16 animate-fadeInUp delay-400"
-            >
+            <div className="flex flex-wrap justify-center gap-4 mb-16 animate-fadeInUp delay-400">
               <Link to="/xizmatlar">
                 <button className="group bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center gap-2.5 hover:-translate-y-1 hover:scale-105">
                   <Eye className="w-5 h-5 group-hover:scale-110 transition-transform" />
@@ -414,13 +395,16 @@ const HomePage = ({ language, translations }) => {
                   },
                 ];
                 const color = cardColors[index % 4];
-                const aosDelays = [100, 200, 300, 400];
+                const delays = [
+                  "delay-100",
+                  "delay-200",
+                  "delay-300",
+                  "delay-400",
+                ];
 
                 return (
                   <div
                     key={index}
-                    data-aos="zoom-in"
-                    data-aos-delay={aosDelays[index]}
                     className={`group bg-white/90 backdrop-blur-md rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-white/50 hover:border-white/80 relative overflow-hidden hover:-translate-y-2 animate-scaleIn ${delays[index]}`}
                     style={{
                       boxShadow:
@@ -473,24 +457,13 @@ const HomePage = ({ language, translations }) => {
       <section className="py-24 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
-            <div
-              data-aos="fade-up"
-              className="inline-block mb-5 px-5 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold"
-            >
+            <div className="inline-block mb-5 px-5 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
               {language === "uz" ? "Ma'lumot" : "Информация"}
             </div>
-            <h2
-              data-aos="fade-up"
-              data-aos-delay="100"
-              className="text-3xl md:text-4xl font-bold mb-5 text-gray-900"
-            >
+            <h2 className="text-3xl md:text-4xl font-bold mb-5 text-gray-900">
               {language === "uz" ? "Loyiha Haqida" : "О проекте"}
             </h2>
-            <p
-              data-aos="fade-up"
-              data-aos-delay="200"
-              className="text-gray-600 max-w-3xl mx-auto leading-relaxed"
-            >
+            <p className="text-gray-600 max-w-3xl mx-auto leading-relaxed">
               {language === "uz"
                 ? '"Chust aqlli shahar" tizimi O\'zbekiston Respublikasi Prezidentining "Raqamli O\'zbekiston - 2030" strategiyasi doirasida amalga oshirilayotgan yirik loyihadir.'
                 : 'Система "Чуст умный город" - крупный проект в рамках стратегии "Цифровой Узбекистан - 2030" Президента Республики Узбекистан.'}
@@ -499,8 +472,6 @@ const HomePage = ({ language, translations }) => {
 
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <Card
-              data-aos="flip-left"
-              data-aos-delay="100"
               className="bg-white/90 backdrop-blur-md rounded-2xl border border-white/20 hover:border-blue-200/50 shadow-sm hover:shadow-xl transition-all duration-300 group relative overflow-hidden hover:-translate-y-1"
               style={{
                 boxShadow:
@@ -531,8 +502,6 @@ const HomePage = ({ language, translations }) => {
             </Card>
 
             <Card
-              data-aos="flip-left"
-              data-aos-delay="200"
               className="bg-white/90 backdrop-blur-md rounded-2xl border border-white/20 hover:border-green-200/50 shadow-md hover:shadow-xl transition-all duration-300 group relative overflow-hidden hover:-translate-y-1"
               style={{
                 boxShadow:
@@ -568,8 +537,6 @@ const HomePage = ({ language, translations }) => {
             </Card>
 
             <Card
-              data-aos="flip-left"
-              data-aos-delay="300"
               className="bg-white/90 backdrop-blur-md rounded-2xl border border-white/20 hover:border-purple-200/50 shadow-sm hover:shadow-xl transition-all duration-300 group relative overflow-hidden hover:-translate-y-1"
               style={{
                 boxShadow:

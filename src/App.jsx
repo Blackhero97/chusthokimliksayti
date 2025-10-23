@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -19,16 +17,6 @@ import { translations } from "./context/translations";
 
 export default function App() {
   const [language, setLanguage] = useState("uz");
-
-  useEffect(() => {
-    AOS.init({
-      duration: 800,
-      easing: 'ease-in-out',
-      once: true,
-      mirror: false,
-      offset: 50,
-    });
-  }, []);
 
   return (
     <Router>
