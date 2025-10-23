@@ -77,7 +77,9 @@ const AboutPage = ({ language, translations }) => {
             </div>
 
             <div
-              className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-lg border border-white/40 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group animate-scaleIn delay-200"
+              data-aos="zoom-in"
+              data-aos-delay="200"
+              className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-lg border border-white/40 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group"
               style={{
                 boxShadow:
                   "inset 0 2px 4px 0 rgba(0, 0, 0, 0.02), 0 8px 32px 0 rgba(168, 85, 247, 0.07)",

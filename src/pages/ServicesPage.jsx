@@ -185,19 +185,13 @@ const ServicesPage = ({ language }) => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => {
               const IconComponent = service.icon;
-              const delays = [
-                "delay-100",
-                "delay-200",
-                "delay-300",
-                "delay-400",
-                "delay-500",
-                "delay-600",
-              ];
               return (
                 <div
                   key={index}
-                  className={`bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-white/40 relative overflow-hidden group animate-scaleIn ${
-                    delays[index % 6]
+                  data-aos="fade-up"
+                  data-aos-delay={index * 100}
+                  className={`bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-white/40 relative overflow-hidden group animate-scaleIn delay-${
+                    ((index % 6) + 1) * 100
                   }`}
                   style={{
                     boxShadow:

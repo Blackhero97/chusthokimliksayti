@@ -116,9 +116,9 @@ const NewsPage = ({ language }) => {
             {newsItems.map((news, index) => (
               <article
                 key={news.id}
-                className={`bg-white/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-white/40 relative group animate-fadeInUp delay-${
-                  ((index % 3) + 1) * 100
-                }`}
+                data-aos="fade-up"
+                data-aos-delay={index * 100}
+                className="bg-white/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-white/40 relative group"
                 style={{
                   boxShadow:
                     "inset 0 2px 4px 0 rgba(0, 0, 0, 0.02), 0 8px 32px 0 rgba(59, 130, 246, 0.07)",
