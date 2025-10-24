@@ -1235,7 +1235,7 @@ const HomePage = ({ language, translations }) => {
 
           <div
             ref={systemStatsRef}
-            className="grid grid-cols-1 min-[375px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 max-w-6xl mx-auto px-4"
+            className="grid grid-cols-1 min-[375px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 max-w-6xl mx-auto "
           >
             {systemStats.map((stat, index) => {
               const colors = [
