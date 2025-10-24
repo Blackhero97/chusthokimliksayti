@@ -530,6 +530,32 @@ const HomePage = ({ language, translations }) => {
 
   return (
     <div className="min-h-screen bg-slate-50">
+      {/* Technical Maintenance Banner */}
+      <div className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white py-3 px-4 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto flex items-center justify-center gap-3 relative z-10">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+            <Settings className="w-5 h-5 animate-spin" />
+          </div>
+          <p className="text-sm sm:text-base font-medium text-center">
+            {language === "uz"
+              ? "Saytda texnik ishlar olib borilmoqda, noqulaylik uchun uzur so'raymiz"
+              : "На сайте проводятся технические работы, приносим извинения за неудобства"}
+          </p>
+          <div className="flex items-center gap-2">
+            <AlertCircle className="w-5 h-5" />
+            <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+          </div>
+        </div>
+
+        {/* Animated background pattern */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse"></div>
+          <div className="absolute -top-1 left-0 w-full h-0.5 bg-gradient-to-r from-yellow-300 via-white to-yellow-300 animate-pulse"></div>
+          <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-yellow-300 via-white to-yellow-300 animate-pulse"></div>
+        </div>
+      </div>
+
       <section className="py-12 sm:py-16 md:py-20 lg:py-28 relative overflow-hidden">
         {/* Government building background image */}
         <img
