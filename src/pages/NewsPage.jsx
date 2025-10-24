@@ -1,6 +1,28 @@
-import { Calendar, Clock, Tag, ArrowRight } from "lucide-react";
+import {
+  Calendar,
+  Clock,
+  Tag,
+  ArrowRight,
+  X,
+  Share2,
+  User,
+} from "lucide-react";
+import { useState } from "react";
 
 const NewsPage = ({ language }) => {
+  // News detail modal state
+  const [selectedNews, setSelectedNews] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openNewsDetail = (news) => {
+    setSelectedNews(news);
+    setIsModalOpen(true);
+  };
+
+  const closeNewsDetail = () => {
+    setIsModalOpen(false);
+    setTimeout(() => setSelectedNews(null), 300); // Animation delay
+  };
   const newsItems = [
     {
       id: 1,
@@ -96,6 +118,101 @@ const NewsPage = ({ language }) => {
 
   return (
     <div className="min-h-screen bg-slate-50">
+      {/* News Detail Modal */}
+      {isModalOpen && selectedNews && (
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+          onClick={closeNewsDetail}
+        >
+          <div
+            className={`bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl transform transition-all duration-300 ${
+              isModalOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"
+            }`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="relative">
+              <img
+                src={selectedNews.image}
+                alt={selectedNews.title}
+                className="w-full h-64 object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+
+              {/* Close button */}
+              <button
+                onClick={closeNewsDetail}
+                className="absolute top-4 right-4 w-10 h-10 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors duration-300"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Category badge */}
+              <div className="absolute top-4 left-4">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/95 backdrop-blur-sm rounded-full text-xs font-semibold text-blue-600">
+                  <Tag className="w-3.5 h-3.5" />
+                  {selectedNews.category}
+                </span>
+              </div>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-6 max-h-96 overflow-y-auto">
+              {/* Date */}
+              <div className="flex items-center gap-2 mb-4 text-sm text-gray-500">
+                <Calendar className="w-4 h-4 text-blue-500" />
+                <time dateTime={selectedNews.date}>{selectedNews.date}</time>
+              </div>
+
+              {/* Title */}
+              <h1 className="text-3xl font-bold mb-6 text-gray-900 leading-tight">
+                {selectedNews.title}
+              </h1>
+
+              {/* Full content */}
+              <div className="prose prose-lg max-w-none">
+                <p className="text-gray-700 leading-relaxed mb-6">
+                  {selectedNews.excerpt}
+                </p>
+
+                {/* Extended content */}
+                <div className="space-y-4 text-gray-700">
+                  <p>
+                    {language === "uz"
+                      ? "Bu loyiha Chust shahrini zamonaviy aqlli shahar sifatida rivojlantirishning muhim bosqichlaridan biridir. Tizim orqali shahar infratuzilmasining barcha asosiy komponentlari - transport, kommunal xizmatlar, xavfsizlik tizimi va boshqalar real vaqtda monitoring qilinadi."
+                      : "Этот проект является одним из важных этапов развития Чуста как современного умного города. Через систему осуществляется мониторинг в реальном времени всех основных компонентов городской инфраструктуры - транспорт, коммунальные услуги, система безопасности и другие."}
+                  </p>
+
+                  <p>
+                    {language === "uz"
+                      ? "Yangi tizim yordamida fuqarolar o'z muammolarini tezkor hal qilish, shahar xizmatlaridan samarali foydalanish va shahar hayotining sifatini yaxshilash imkoniyatiga ega bo'ldilar."
+                      : "С помощью новой системы граждане получили возможность быстро решать свои проблемы, эффективно пользоваться городскими услугами и улучшать качество городской жизни."}
+                  </p>
+
+                  <p>
+                    {language === "uz"
+                      ? "Kelajakda tizim yanada kengaytiriladi va yangi funksiyalar qo'shiladi. Bu shaharni O'zbekistondagi eng zamonaviy va qulay shaharlardan biriga aylantirish maqsadida amalga oshirilmoqda."
+                      : "В будущем система будет расширена и добавлены новые функции. Это осуществляется с целью превратить город в один из самых современных и удобных городов Узбекистана."}
+                  </p>
+                </div>
+              </div>
+
+              {/* Action buttons */}
+              <div className="flex items-center gap-4 mt-8 pt-6 border-t border-gray-100">
+                <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors duration-300">
+                  <Share2 className="w-4 h-4" />
+                  {language === "uz" ? "Ulashish" : "Поделиться"}
+                </button>
+
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <User className="w-4 h-4" />
+                  {language === "uz" ? "Chust hokimiyati" : "Хокимият Чуста"}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <section className="py-20 bg-gradient-to-br from-blue-50/30 via-purple-50/20 to-cyan-50/30">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
@@ -112,7 +229,7 @@ const NewsPage = ({ language }) => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {newsItems.map((news, index) => (
               <article
                 key={news.id}
@@ -162,7 +279,10 @@ const NewsPage = ({ language }) => {
                   </p>
 
                   {/* Read more button */}
-                  <button className="inline-flex items-center gap-2 text-blue-600 font-semibold text-sm hover:gap-3 transition-all duration-300 group/btn">
+                  <button
+                    onClick={() => openNewsDetail(news)}
+                    className="inline-flex items-center gap-2 text-blue-600 font-semibold text-sm hover:gap-3 transition-all duration-300 group/btn"
+                  >
                     <span>
                       {language === "uz" ? "Batafsil o'qish" : "Читать далее"}
                     </span>

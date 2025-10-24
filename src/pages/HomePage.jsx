@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
   Activity,
@@ -63,6 +63,34 @@ const HomePage = ({ language, translations }) => {
     message: "",
   });
 
+  // Counter animation state for hero stats
+  const [heroStats, setHeroStats] = useState({
+    sensors: 0,
+    services: 0,
+    efficiency: 0,
+  });
+  const [heroAnimated, setHeroAnimated] = useState(false);
+  const heroStatsRef = useRef(null);
+
+  // Counter animation state for system stats
+  const [systemStatsValues, setSystemStatsValues] = useState({
+    trucks: 0,
+    sensors: 0,
+    buses: 0,
+    parks: 0,
+    calls: 0,
+    satisfaction: 0,
+    uptime: 0,
+    efficiency: 0,
+  });
+  const [systemStatsAnimated, setSystemStatsAnimated] = useState(false);
+  const systemStatsRef = useRef(null);
+
+  // Counter animation state for system performance
+  const [counts, setCounts] = useState({ system: 0, network: 0, uptime: 0 });
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const statsRef = useRef(null);
+
   // Dynamic statistics state
   const [dynamicStats, setDynamicStats] = useState(generateDynamicStats());
 
@@ -74,6 +102,196 @@ const HomePage = ({ language, translations }) => {
 
     return () => clearInterval(interval);
   }, []);
+
+  // Hero stats animation (asta-sekin, yoqimli)
+  const animateHeroCounters = () => {
+    const targetValues = {
+      sensors: dynamicStats.sensors,
+      services: dynamicStats.services,
+      efficiency: dynamicStats.efficiency,
+    };
+    const duration = 3500; // 3.5 seconds - sekinroq
+
+    Object.keys(targetValues).forEach((key) => {
+      let currentValue = 0;
+      const targetValue = targetValues[key];
+      const startTime = Date.now();
+
+      const animate = () => {
+        const elapsedTime = Date.now() - startTime;
+        const progress = Math.min(elapsedTime / duration, 1);
+
+        // Easing function - asta boshlanadi, tez o'rtada, asta tugaydi
+        const easeInOutQuart = (t) => {
+          return t < 0.5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t;
+        };
+
+        const easedProgress = easeInOutQuart(progress);
+        currentValue = targetValue * easedProgress;
+
+        setHeroStats((prev) => ({ ...prev, [key]: Math.round(currentValue) }));
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        }
+      };
+
+      requestAnimationFrame(animate);
+    });
+  };
+
+  // System stats animation (asta-sekin, yoqimli)
+  const animateSystemStats = () => {
+    const targetValues = {
+      trucks: 20,
+      sensors: 50,
+      buses: 100,
+      parks: 300,
+      calls: 4000,
+      satisfaction: 95,
+      uptime: 24,
+      efficiency: 97,
+    };
+    const duration = 3500; // 3.5 seconds - sekinroq
+
+    Object.keys(targetValues).forEach((key) => {
+      let currentValue = 0;
+      const targetValue = targetValues[key];
+      const startTime = Date.now();
+
+      const animate = () => {
+        const elapsedTime = Date.now() - startTime;
+        const progress = Math.min(elapsedTime / duration, 1);
+
+        // Easing function - asta boshlanadi, tez o'rtada, asta tugaydi
+        const easeInOutQuart = (t) => {
+          return t < 0.5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t;
+        };
+
+        const easedProgress = easeInOutQuart(progress);
+        currentValue = targetValue * easedProgress;
+
+        setSystemStatsValues((prev) => ({
+          ...prev,
+          [key]: Math.round(currentValue),
+        }));
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        }
+      };
+
+      requestAnimationFrame(animate);
+    });
+  };
+
+  // System performance animation (asta-sekin, yoqimli)
+  const animateCounters = () => {
+    const targetValues = { system: 75, network: 67, uptime: 83 };
+    const duration = 3000; // 3 seconds - sekinroq
+
+    Object.keys(targetValues).forEach((key) => {
+      let currentValue = 0;
+      const targetValue = targetValues[key];
+      const startTime = Date.now();
+
+      const animate = () => {
+        const elapsedTime = Date.now() - startTime;
+        const progress = Math.min(elapsedTime / duration, 1);
+
+        // Easing function - asta boshlanadi, tez o'rtada, asta tugaydi
+        const easeInOutQuart = (t) => {
+          return t < 0.5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t;
+        };
+
+        const easedProgress = easeInOutQuart(progress);
+        currentValue = targetValue * easedProgress;
+
+        setCounts((prev) => ({ ...prev, [key]: Math.round(currentValue) }));
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        }
+      };
+
+      requestAnimationFrame(animate);
+    });
+  };
+
+  // Intersection Observer for hero stats animation
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !heroAnimated) {
+            setHeroAnimated(true);
+            animateHeroCounters();
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    if (heroStatsRef.current) {
+      observer.observe(heroStatsRef.current);
+    }
+
+    return () => {
+      if (heroStatsRef.current) {
+        observer.unobserve(heroStatsRef.current);
+      }
+    };
+  }, [heroAnimated, dynamicStats]);
+
+  // Intersection observer for system statistics animation
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !systemStatsAnimated) {
+            setSystemStatsAnimated(true);
+            animateSystemStats();
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    if (systemStatsRef.current) {
+      observer.observe(systemStatsRef.current);
+    }
+
+    return () => {
+      if (systemStatsRef.current) {
+        observer.unobserve(systemStatsRef.current);
+      }
+    };
+  }, [systemStatsAnimated]);
+
+  // Intersection Observer for system performance animation
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            setHasAnimated(true);
+            animateCounters();
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (statsRef.current) {
+      observer.observe(statsRef.current);
+    }
+
+    return () => {
+      if (statsRef.current) {
+        observer.unobserve(statsRef.current);
+      }
+    };
+  }, [hasAnimated]);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -103,7 +321,7 @@ const HomePage = ({ language, translations }) => {
         language === "uz" ? "Uzluksiz kuzatuv" : "Непрерывное наблюдение",
     },
     {
-      number: formatStatValue(dynamicStats.sensors, "plus"),
+      number: formatStatValue(heroStats.sensors || 0, "plus"),
       label: language === "uz" ? "Sensorlar" : "Датчики",
       icon: Wifi,
       gradient: "from-green-500 to-emerald-600",
@@ -111,7 +329,7 @@ const HomePage = ({ language, translations }) => {
       description: language === "uz" ? "Faol sensorlar" : "Активные датчики",
     },
     {
-      number: formatStatValue(dynamicStats.services, "plus"),
+      number: formatStatValue(heroStats.services || 0, "plus"),
       label: language === "uz" ? "Xizmatlar" : "Услуги",
       icon: Globe,
       gradient: "from-yellow-500 to-orange-600",
@@ -119,7 +337,7 @@ const HomePage = ({ language, translations }) => {
       description: language === "uz" ? "Mavjud xizmatlar" : "Доступные услуги",
     },
     {
-      number: formatStatValue(dynamicStats.efficiency, "percentage"),
+      number: formatStatValue(heroStats.efficiency || 0, "percentage"),
       label: language === "uz" ? "Samaradorlik" : "Эффективность",
       icon: TrendingUp,
       gradient: "from-purple-500 to-indigo-600",
@@ -223,43 +441,43 @@ const HomePage = ({ language, translations }) => {
 
   const systemStats = [
     {
-      number: "20+",
+      number: `${systemStatsValues.trucks}+`,
       label: language === "uz" ? "Axlat mashinalar" : "Мусоровозы",
       icon: Recycle,
     },
     {
-      number: "50+",
+      number: `${systemStatsValues.sensors}+`,
       label: language === "uz" ? "Harorat sensorlari" : "Датчики температуры",
       icon: Thermometer,
     },
     {
-      number: "100+",
+      number: `${systemStatsValues.buses}+`,
       label: language === "uz" ? "Avtobuslar" : "Автобусы",
       icon: Car,
     },
     {
-      number: "300+",
+      number: `${systemStatsValues.parks}+`,
       label: language === "uz" ? "Yashil maydonlar" : "Зеленые зоны",
       icon: TreePine,
     },
     {
-      number: "4000+",
+      number: `${systemStatsValues.calls}+`,
       label: language === "uz" ? "Oylik chaqiruvlar" : "Ежемесячные обращения",
       icon: Phone,
     },
     {
-      number: "95%",
+      number: `${systemStatsValues.satisfaction}%`,
       label:
         language === "uz" ? "Qoniqish darajasi" : "Уровень удовлетворенности",
       icon: Users,
     },
     {
-      number: "24/7",
+      number: `${systemStatsValues.uptime}/7`,
       label: language === "uz" ? "Monitoring" : "Мониторинг",
       icon: Activity,
     },
     {
-      number: "97%",
+      number: `${systemStatsValues.efficiency}%`,
       label: language === "uz" ? "Tizim ishlashi" : "Работа системы",
       icon: Zap,
     },
@@ -399,7 +617,10 @@ const HomePage = ({ language, translations }) => {
                 </button>
               </Link>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 max-w-5xl mx-auto px-2 sm:px-0">
+            <div
+              ref={heroStatsRef}
+              className="grid grid-cols-1 min-[375px]:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 max-w-5xl mx-auto px-2 sm:px-0"
+            >
               {stats.map((stat, index) => {
                 const delays = [
                   "delay-100",
@@ -559,7 +780,10 @@ const HomePage = ({ language, translations }) => {
             </div>
 
             {/* Real-time Data Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8 md:mb-12">
+            <div
+              ref={statsRef}
+              className="grid grid-cols-1 min-[375px]:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8 md:mb-12"
+            >
               {/* System Performance */}
               <div className="bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 glow-border">
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
@@ -580,9 +804,14 @@ const HomePage = ({ language, translations }) => {
                     </span>
                     <div className="flex items-center space-x-1.5 sm:space-x-2">
                       <div className="w-16 sm:w-20 h-1.5 sm:h-2 bg-gray-200 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-green-400 to-green-600 w-3/4 rounded-full"></div>
+                        <div
+                          className="h-full bg-gradient-to-r from-green-400 to-green-600 rounded-full transition-all duration-2000 ease-in-out"
+                          style={{ width: `${counts.system}%` }}
+                        ></div>
                       </div>
-                      <span className="text-xs font-medium">75%</span>
+                      <span className="text-xs font-medium">
+                        {counts.system}%
+                      </span>
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
@@ -591,9 +820,14 @@ const HomePage = ({ language, translations }) => {
                     </span>
                     <div className="flex items-center space-x-1.5 sm:space-x-2">
                       <div className="w-16 sm:w-20 h-1.5 sm:h-2 bg-gray-200 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-blue-400 to-blue-600 w-2/3 rounded-full"></div>
+                        <div
+                          className="h-full bg-gradient-to-r from-blue-400 to-blue-600 rounded-full transition-all duration-2000 ease-in-out"
+                          style={{ width: `${counts.network}%` }}
+                        ></div>
                       </div>
-                      <span className="text-xs font-medium">67%</span>
+                      <span className="text-xs font-medium">
+                        {counts.network}%
+                      </span>
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
@@ -602,9 +836,14 @@ const HomePage = ({ language, translations }) => {
                     </span>
                     <div className="flex items-center space-x-1.5 sm:space-x-2">
                       <div className="w-16 sm:w-20 h-1.5 sm:h-2 bg-gray-200 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-purple-400 to-purple-600 w-5/6 rounded-full"></div>
+                        <div
+                          className="h-full bg-gradient-to-r from-purple-400 to-purple-600 rounded-full transition-all duration-2000 ease-in-out"
+                          style={{ width: `${counts.uptime}%` }}
+                        ></div>
                       </div>
-                      <span className="text-xs font-medium">83%</span>
+                      <span className="text-xs font-medium">
+                        {counts.uptime}%
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -709,7 +948,7 @@ const HomePage = ({ language, translations }) => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 min-[475px]:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6 lg:gap-8 max-w-5xl mx-auto">
             <Card
               className="cursor-pointer bg-white/90 backdrop-blur-md rounded-xl sm:rounded-2xl border border-white/20 hover:border-blue-200/50 shadow-sm hover:shadow-xl transition-all duration-300 group relative overflow-hidden hover:-translate-y-1"
               style={{
@@ -823,7 +1062,7 @@ const HomePage = ({ language, translations }) => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 min-[375px]:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
             {systemServices.map((service, index) => {
               const cardWatermarks = [
                 {
@@ -994,156 +1233,170 @@ const HomePage = ({ language, translations }) => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-6xl mx-auto px-4">
+          <div
+            ref={systemStatsRef}
+            className="grid grid-cols-1 min-[375px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 max-w-6xl mx-auto px-4"
+          >
             {systemStats.map((stat, index) => {
               const colors = [
                 {
-                  bg: "bg-gradient-to-br from-red-50 to-red-100/50",
-                  icon: "text-red-600",
-                  iconBg: "bg-white",
-                  watermark: (
-                    <path
-                      d="M32 8C20.4 8 11 17.4 11 29c0 6.2 2.7 11.8 7 15.7V56l14-7 14 7V44.7c4.3-3.9 7-9.5 7-15.7C53 17.4 43.6 8 32 8zm0 4c9.4 0 17 7.6 17 17s-7.6 17-17 17-17-7.6-17-17 7.6-17 17-17zm-6 11v14l6-3.5 6 3.5V23h-12z"
-                      stroke="rgba(239, 68, 68, 0.15)"
-                      strokeWidth="1"
-                      fill="rgba(239, 68, 68, 0.08)"
-                    />
-                  ),
+                  bg: "bg-white/90",
+                  accent: "from-emerald-500 to-teal-600",
+                  icon: "text-emerald-600",
+                  iconBg: "bg-gradient-to-br from-emerald-50 to-teal-50",
+                  border: "border-2 border-emerald-200/30",
+                  glow: "hover:shadow-emerald-500/20",
                 },
                 {
-                  bg: "bg-gradient-to-br from-orange-50 to-orange-100/50",
-                  icon: "text-orange-600",
-                  iconBg: "bg-white",
-                  watermark: (
-                    <path
-                      d="M32 8c-2.2 0-4 1.8-4 4v8c0 2.2 1.8 4 4 4s4-1.8 4-4v-8c0-2.2-1.8-4-4-4zm-16 16c-2.2 0-4 1.8-4 4s1.8 4 4 4h8c2.2 0 4-1.8 4-4s-1.8-4-4-4h-8zm24 0c-2.2 0-4 1.8-4 4s1.8 4 4 4h8c2.2 0 4-1.8 4-4s-1.8-4-4-4h-8zM32 36c-2.2 0-4 1.8-4 4v8c0 2.2 1.8 4 4 4s4-1.8 4-4v-8c0-2.2-1.8-4-4-4z"
-                      stroke="rgba(249, 115, 22, 0.15)"
-                      strokeWidth="1"
-                      fill="rgba(249, 115, 22, 0.08)"
-                    />
-                  ),
+                  bg: "bg-white/90",
+                  accent: "from-amber-500 to-orange-600",
+                  icon: "text-amber-600",
+                  iconBg: "bg-gradient-to-br from-amber-50 to-orange-50",
+                  border: "border-2 border-amber-200/30",
+                  glow: "hover:shadow-amber-500/20",
                 },
                 {
-                  bg: "bg-gradient-to-br from-green-50 to-green-100/50",
-                  icon: "text-green-600",
-                  iconBg: "bg-white",
-                  watermark: (
-                    <path
-                      d="M28 8L16 24h8v16h8V24h8L28 8zm-12 36c-2.2 0-4 1.8-4 4s1.8 4 4 4h24c2.2 0 4-1.8 4-4s-1.8-4-4-4H16z"
-                      stroke="rgba(34, 197, 94, 0.15)"
-                      strokeWidth="1"
-                      fill="rgba(34, 197, 94, 0.08)"
-                    />
-                  ),
-                },
-                {
-                  bg: "bg-gradient-to-br from-cyan-50 to-cyan-100/50",
-                  icon: "text-cyan-600",
-                  iconBg: "bg-white",
-                  watermark: (
-                    <path
-                      d="M32 8C20 8 10 18 10 30s10 22 22 22 22-10 22-22S44 8 32 8zm0 4c10 0 18 8 18 18s-8 18-18 18-18-8-18-18 8-18 18-18zm-8 12v12l10-6-10-6z"
-                      stroke="rgba(6, 182, 212, 0.15)"
-                      strokeWidth="1"
-                      fill="rgba(6, 182, 212, 0.08)"
-                    />
-                  ),
-                },
-                {
-                  bg: "bg-gradient-to-br from-blue-50 to-blue-100/50",
+                  bg: "bg-white/90",
+                  accent: "from-blue-500 to-cyan-600",
                   icon: "text-blue-600",
-                  iconBg: "bg-white",
-                  watermark: (
-                    <path
-                      d="M20 12c-4.4 0-8 3.6-8 8v24c0 4.4 3.6 8 8 8h24c4.4 0 8-3.6 8-8V20c0-4.4-3.6-8-8-8H20zm0 4h24c2.2 0 4 1.8 4 4v24c0 2.2-1.8 4-4 4H20c-2.2 0-4-1.8-4-4V20c0-2.2 1.8-4 4-4zm6 8c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4c0-1.1-.9-2-2-2H26zm0 12c-1.1 0-2 .9-2 2s.9 2 2 2h12c1.1 0 2-.9 2-2s-.9-2-2-2H26z"
-                      stroke="rgba(59, 130, 246, 0.15)"
-                      strokeWidth="1"
-                      fill="rgba(59, 130, 246, 0.08)"
-                    />
-                  ),
+                  iconBg: "bg-gradient-to-br from-blue-50 to-cyan-50",
+                  border: "border-2 border-blue-200/30",
+                  glow: "hover:shadow-blue-500/20",
                 },
                 {
-                  bg: "bg-gradient-to-br from-purple-50 to-purple-100/50",
-                  icon: "text-purple-600",
-                  iconBg: "bg-white",
-                  watermark: (
-                    <path
-                      d="M32 8C20 8 10 18 10 30s10 22 22 22 22-10 22-22S44 8 32 8zm0 4c10 0 18 8 18 18s-8 18-18 18-18-8-18-18 8-18 18-18zm-4 10c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2s2-.9 2-2V24c0-1.1-.9-2-2-2zm8 0c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2s2-.9 2-2V24c0-1.1-.9-2-2-2z"
-                      stroke="rgba(168, 85, 247, 0.15)"
-                      strokeWidth="1"
-                      fill="rgba(168, 85, 247, 0.08)"
-                    />
-                  ),
+                  bg: "bg-white/90",
+                  accent: "from-green-500 to-lime-600",
+                  icon: "text-green-600",
+                  iconBg: "bg-gradient-to-br from-green-50 to-lime-50",
+                  border: "border-2 border-green-200/30",
+                  glow: "hover:shadow-green-500/20",
                 },
                 {
-                  bg: "bg-gradient-to-br from-pink-50 to-pink-100/50",
-                  icon: "text-pink-600",
-                  iconBg: "bg-white",
-                  watermark: (
-                    <path
-                      d="M32 10C26 10 21 15 21 21c0 3 1.2 5.7 3.2 7.7L32 36.6l7.8-7.9C41.8 26.7 43 24 43 21c0-6-5-11-11-11zm0 4c3.9 0 7 3.1 7 7 0 1.8-.7 3.5-2 4.8L32 31.2l-5-5.4C25.7 24.5 25 22.8 25 21c0-3.9 3.1-7 7-7zm0 28L16 56h32L32 42z"
-                      stroke="rgba(236, 72, 153, 0.15)"
-                      strokeWidth="1"
-                      fill="rgba(236, 72, 153, 0.08)"
-                    />
-                  ),
+                  bg: "bg-white/90",
+                  accent: "from-violet-500 to-purple-600",
+                  icon: "text-violet-600",
+                  iconBg: "bg-gradient-to-br from-violet-50 to-purple-50",
+                  border: "border-2 border-violet-200/30",
+                  glow: "hover:shadow-violet-500/20",
                 },
                 {
-                  bg: "bg-gradient-to-br from-indigo-50 to-indigo-100/50",
+                  bg: "bg-white/90",
+                  accent: "from-rose-500 to-pink-600",
+                  icon: "text-rose-600",
+                  iconBg: "bg-gradient-to-br from-rose-50 to-pink-50",
+                  border: "border-2 border-rose-200/30",
+                  glow: "hover:shadow-rose-500/20",
+                },
+                {
+                  bg: "bg-white/90",
+                  accent: "from-slate-500 to-gray-600",
+                  icon: "text-slate-600",
+                  iconBg: "bg-gradient-to-br from-slate-50 to-gray-50",
+                  border: "border-2 border-slate-200/30",
+                  glow: "hover:shadow-slate-500/20",
+                },
+                {
+                  bg: "bg-white/90",
+                  accent: "from-indigo-500 to-blue-600",
                   icon: "text-indigo-600",
-                  iconBg: "bg-white",
-                  watermark: (
-                    <path
-                      d="M32 8l-4 8-8 1.2 5.8 5.6L24 31l8-4.2 8 4.2-1.8-8.2L44 17.2l-8-1.2L32 8zm0 20c-6.6 0-12 5.4-12 12v12h24V40c0-6.6-5.4-12-12-12z"
-                      stroke="rgba(99, 102, 241, 0.15)"
-                      strokeWidth="1"
-                      fill="rgba(99, 102, 241, 0.08)"
-                    />
-                  ),
+                  iconBg: "bg-gradient-to-br from-indigo-50 to-blue-50",
+                  border: "border-2 border-indigo-200/30",
+                  glow: "hover:shadow-indigo-500/20",
                 },
               ];
               return (
                 <div
                   key={index}
-                  className={`${colors[index].bg} backdrop-blur-sm rounded-3xl p-6 md:p-8 text-center transition-all duration-300 hover:shadow-lg group relative overflow-hidden cursor-pointer border border-white/30`}
+                  className={`${colors[index].bg} ${colors[index].border} ${colors[index].glow} backdrop-blur-lg rounded-3xl p-6 md:p-8 text-center transition-all duration-700 hover:shadow-2xl hover:scale-[1.03] group relative overflow-hidden cursor-pointer`}
                   style={{
-                    transform: "perspective(800px) rotateX(0deg)",
-                    transition: "all 0.35s cubic-bezier(.2,.9,.3,1)",
+                    transform: "perspective(1000px) rotateX(0deg)",
+                    transition: "all 0.6s cubic-bezier(.15,.85,.25,1)",
                     boxShadow:
-                      "inset 0 1px 4px rgba(0,0,0,0.02), 0 6px 18px rgba(0,0,0,0.05)",
+                      "inset 0 2px 8px rgba(255,255,255,0.8), 0 12px 40px rgba(0,0,0,0.08), 0 4px 20px rgba(0,0,0,0.04)",
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform =
-                      "perspective(800px) rotateX(2deg) translateY(-6px)";
+                      "perspective(1000px) rotateX(3deg) translateY(-8px)";
+                    e.currentTarget.style.boxShadow = `inset 0 2px 8px rgba(255,255,255,0.9), 0 20px 60px rgba(0,0,0,0.12), 0 8px 30px ${
+                      colors[index].glow.includes("emerald")
+                        ? "rgba(16, 185, 129, 0.15)"
+                        : colors[index].glow.includes("amber")
+                        ? "rgba(245, 158, 11, 0.15)"
+                        : colors[index].glow.includes("blue")
+                        ? "rgba(59, 130, 246, 0.15)"
+                        : colors[index].glow.includes("green")
+                        ? "rgba(34, 197, 94, 0.15)"
+                        : colors[index].glow.includes("violet")
+                        ? "rgba(139, 92, 246, 0.15)"
+                        : colors[index].glow.includes("rose")
+                        ? "rgba(244, 63, 94, 0.15)"
+                        : colors[index].glow.includes("slate")
+                        ? "rgba(100, 116, 139, 0.15)"
+                        : "rgba(99, 102, 241, 0.15)"
+                    }`;
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform =
-                      "perspective(800px) rotateX(0deg) translateY(0)";
+                      "perspective(1000px) rotateX(0deg) translateY(0)";
+                    e.currentTarget.style.boxShadow =
+                      "inset 0 2px 8px rgba(255,255,255,0.8), 0 12px 40px rgba(0,0,0,0.08), 0 4px 20px rgba(0,0,0,0.04)";
                   }}
                 >
-                  <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-60 transition-opacity duration-400 bg-gradient-to-br from-white/40 via-white/10 to-transparent pointer-events-none"></div>
-                  <svg
-                    aria-hidden="true"
-                    className="absolute -top-4 -right-4 w-32 h-32 opacity-[0.12] pointer-events-none"
-                    viewBox="0 0 64 64"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    {colors[index].watermark}
-                  </svg>
+                  {/* Accent gradient line - top */}
                   <div
-                    className={`${colors[index].iconBg} w-14 h-14 rounded-2xl ${colors[index].icon} flex items-center justify-center mx-auto mb-4 shadow-sm transition-all duration-300 relative z-10`}
-                    style={{ boxShadow: "inset 0 1px 2px rgba(0,0,0,0.04)" }}
-                    aria-hidden="false"
-                  >
-                    <stat.icon className="h-6 w-6" />
+                    className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${colors[index].accent} rounded-t-3xl opacity-60`}
+                  ></div>
+
+                  {/* Floating particles effect */}
+                  <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none">
+                    <div className="absolute top-4 right-6 w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                    <div className="absolute bottom-6 left-4 w-1 h-1 bg-white/60 rounded-full animate-ping"></div>
                   </div>
-                  <div className="text-3xl md:text-4xl font-bold text-gray-900 mb-2 relative z-10">
+
+                  {/* Premium icon container */}
+                  <div className="relative mb-6 flex justify-center">
+                    {/* Background decorative rings */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div
+                        className={`w-24 h-24 rounded-full bg-gradient-to-r ${colors[index].accent} opacity-10 animate-pulse`}
+                      ></div>
+                      <div
+                        className={`absolute w-28 h-28 rounded-full border border-gradient-to-r ${colors[index].accent} opacity-20`}
+                      ></div>
+                    </div>
+
+                    {/* Main icon box */}
+                    <div
+                      className={`${colors[index].iconBg} w-20 h-20 rounded-2xl ${colors[index].icon} flex items-center justify-center shadow-md transition-all duration-700 relative z-10 group-hover:scale-105 group-hover:rotate-3 border border-white/50`}
+                      style={{
+                        boxShadow:
+                          "inset 0 2px 6px rgba(255,255,255,0.8), 0 3px 12px rgba(0,0,0,0.06)",
+                      }}
+                    >
+                      <stat.icon className="h-8 w-8 drop-shadow-sm" />
+
+                      {/* Inner accent dot */}
+                      <div
+                        className={`absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r ${colors[index].accent} rounded-full opacity-70 group-hover:opacity-100 transition-opacity duration-500`}
+                      ></div>
+                    </div>
+
+                    {/* Subtle glow effect */}
+                    <div
+                      className={`absolute inset-0 w-20 h-20 mx-auto rounded-2xl bg-gradient-to-r ${colors[index].accent} opacity-0 group-hover:opacity-15 transition-opacity duration-700 blur-sm`}
+                    ></div>
+                  </div>
+                  <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-800 to-gray-900 bg-clip-text text-transparent mb-4 relative z-10 transition-all duration-700 group-hover:scale-105">
                     {stat.number}
                   </div>
-                  <div className="text-sm text-gray-700 text-center relative z-10">
+                  <div className="text-sm font-semibold text-gray-600 text-center relative z-10 leading-relaxed group-hover:text-gray-800 transition-all duration-500 px-2">
                     {stat.label}
                   </div>
+
+                  {/* Bottom accent line */}
+                  <div
+                    className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-1 bg-gradient-to-r ${colors[index].accent} rounded-full transition-all duration-700 group-hover:w-16 opacity-80`}
+                  ></div>
                 </div>
               );
             })}
@@ -1168,7 +1421,7 @@ const HomePage = ({ language, translations }) => {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 min-[575px]:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
             {infrastructureServices.map((service, index) => {
               const cardColors = [
                 {
@@ -1264,7 +1517,7 @@ const HomePage = ({ language, translations }) => {
 
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-8 md:p-10">
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              <div className="grid grid-cols-1 min-[375px]:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label className="text-sm font-medium text-gray-900 mb-2 block">
                     {language === "uz" ? "Ism Familiya" : "ФИО"}
