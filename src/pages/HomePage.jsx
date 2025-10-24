@@ -1515,7 +1515,7 @@ const HomePage = ({ language, translations }) => {
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-8 md:p-10">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-4 md:p-5">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 min-[375px]:grid-cols-2 gap-4 sm:gap-6">
                 <div>
