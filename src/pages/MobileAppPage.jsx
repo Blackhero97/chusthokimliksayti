@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import {
   Card,
   CardContent,
@@ -115,6 +118,17 @@ const MobileAppPage = ({ language, translations }) => {
     },
   ];
 
+  // Initialize AOS
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      easing: "ease-out-cubic",
+      once: true,
+      offset: 50,
+      delay: 0,
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20">
       {/* Hero Section */}
@@ -128,12 +142,20 @@ const MobileAppPage = ({ language, translations }) => {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left content */}
             <div className="text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-medium shadow-lg animate-fadeInDown">
+              <div
+                className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-medium shadow-lg"
+                data-aos="fade-down"
+                data-aos-delay="0"
+              >
                 <Smartphone className="w-4 h-4" />
                 {language === "uz" ? "Mobil Ilova" : "Мобильное приложение"}
               </div>
 
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 animate-fadeInUp delay-100">
+              <h1
+                className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6"
+                data-aos="fade-up"
+                data-aos-delay="100"
+              >
                 <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
                   Chust
                 </span>
@@ -141,7 +163,11 @@ const MobileAppPage = ({ language, translations }) => {
                 <span className="text-gray-900">Smart City</span>
               </h1>
 
-              <p className="text-xl text-gray-600 mb-8 leading-relaxed animate-fadeInUp delay-200">
+              <p
+                className="text-xl text-gray-600 mb-8 leading-relaxed"
+                data-aos="fade-up"
+                data-aos-delay="200"
+              >
                 {language === "uz"
                   ? "Shahar hayotini yanada qulay qiluvchi zamonaviy mobil ilova. Barcha xizmatlarni bir joyda."
                   : "Современное мобильное приложение, делающее городскую жизнь удобнее. Все услуги в одном месте."}
@@ -152,8 +178,9 @@ const MobileAppPage = ({ language, translations }) => {
                 {stats.map((stat, index) => (
                   <div
                     key={index}
-                    className="text-center p-4 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-fadeInUp"
-                    style={{ animationDelay: `${300 + index * 100}ms` }}
+                    className="text-center p-4 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                    data-aos="fade-up"
+                    data-aos-delay={300 + index * 100}
                   >
                     <div className="w-12 h-12 mx-auto mb-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-white shadow-lg">
                       <stat.icon className="w-6 h-6" />
@@ -167,7 +194,11 @@ const MobileAppPage = ({ language, translations }) => {
               </div>
 
               {/* Premium Download Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <div
+                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+                data-aos="fade-up"
+                data-aos-delay="300"
+              >
                 <button className="group relative bg-gradient-to-r from-gray-900 to-black hover:from-black hover:to-gray-800 text-white px-8 py-4 rounded-2xl transition-all duration-300 hover:scale-105 shadow-2xl hover:shadow-3xl">
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center group-hover:bg-white/30 transition-colors">
@@ -201,7 +232,11 @@ const MobileAppPage = ({ language, translations }) => {
             </div>
 
             {/* Right side - Phone mockup */}
-            <div className="relative flex justify-center lg:justify-end">
+            <div
+              className="relative flex justify-center lg:justify-end"
+              data-aos="fade-left"
+              data-aos-delay="400"
+            >
               <div className="relative">
                 {/* Phone mockup */}
                 <div className="w-80 h-[640px] bg-gradient-to-b from-gray-900 to-black rounded-[3rem] p-2 shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500">
@@ -273,7 +308,7 @@ const MobileAppPage = ({ language, translations }) => {
         <div className="absolute inset-0 bg-gradient-to-b from-blue-50/30 to-purple-50/20"></div>
 
         <div className="max-w-7xl mx-auto px-4 relative z-10">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16" data-aos="fade-up">
             <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 rounded-full font-medium">
               <Zap className="w-4 h-4" />
               {language === "uz" ? "Xususiyatlar" : "Особенности"}
@@ -295,6 +330,8 @@ const MobileAppPage = ({ language, translations }) => {
               <div
                 key={index}
                 className="group relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-white/50"
+                data-aos="fade-up"
+                data-aos-delay={index * 100}
               >
                 {/* Gradient accent */}
                 <div
@@ -337,7 +374,7 @@ const MobileAppPage = ({ language, translations }) => {
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMS41IiBmaWxsPSJyZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMSkiLz4KPHN2Zz4K')] opacity-20"></div>
 
         <div className="max-w-7xl mx-auto px-4 relative z-10">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16" data-aos="fade-up">
             <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 text-cyan-300 rounded-full font-medium backdrop-blur-sm">
               <Shield className="w-4 h-4" />
               {language === "uz" ? "Texnik Ma'lumotlar" : "Технические данные"}
@@ -356,7 +393,11 @@ const MobileAppPage = ({ language, translations }) => {
 
           <div className="grid lg:grid-cols-3 gap-8 mb-16">
             {/* Security Features */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300">
+            <div
+              className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300"
+              data-aos="fade-up"
+              data-aos-delay="0"
+            >
               <div className="w-16 h-16 bg-gradient-to-r from-green-400 to-emerald-500 rounded-2xl flex items-center justify-center mb-6">
                 <Shield className="w-8 h-8 text-white" />
               </div>
@@ -376,7 +417,11 @@ const MobileAppPage = ({ language, translations }) => {
               </div>
             </div>
 
-            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300">
+            <div
+              className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300"
+              data-aos="fade-up"
+              data-aos-delay="100"
+            >
               <div className="w-16 h-16 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-2xl flex items-center justify-center mb-6">
                 <Zap className="w-8 h-8 text-white" />
               </div>
@@ -394,7 +439,11 @@ const MobileAppPage = ({ language, translations }) => {
               </div>
             </div>
 
-            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300">
+            <div
+              className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300"
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
               <div className="w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center mb-6">
                 <Users className="w-8 h-8 text-white" />
               </div>
@@ -416,7 +465,7 @@ const MobileAppPage = ({ language, translations }) => {
           </div>
 
           {/* Download Section */}
-          <div className="text-center">
+          <div className="text-center" data-aos="fade-up" data-aos-delay="300">
             <h3 className="text-3xl font-bold mb-8">
               {language === "uz"
                 ? "Hoziroq Yuklab Oling"

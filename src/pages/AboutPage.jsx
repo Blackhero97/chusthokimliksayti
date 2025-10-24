@@ -1,20 +1,44 @@
+import { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import { Eye, Settings, Shield, Users, Award, Target } from "lucide-react";
 
 const AboutPage = ({ language, translations }) => {
+  // Initialize AOS
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      easing: "ease-out-cubic",
+      once: true,
+      offset: 50,
+      delay: 0,
+    });
+  }, []);
   return (
     <div className="min-h-screen bg-slate-50">
       <section className="py-20 bg-gradient-to-br from-blue-50/30 via-purple-50/20 to-cyan-50/30">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
-            <div className="inline-block mb-5 px-5 py-2 bg-blue-600 text-white text-sm font-medium rounded-full shadow-lg animate-fadeInDown">
+            <div
+              data-aos="fade-down"
+              className="inline-block mb-5 px-5 py-2 bg-blue-600 text-white text-sm font-medium rounded-full shadow-lg"
+            >
               {language === "uz" ? "Loyiha Haqida" : "О проекте"}
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-5 text-gray-900 animate-fadeInUp delay-100">
+            <h1
+              data-aos="fade-up"
+              data-aos-delay="100"
+              className="text-4xl md:text-5xl font-bold mb-5 text-gray-900"
+            >
               {language === "uz"
                 ? "Chust Aqlli Shahar Loyihasi"
                 : "Проект Умный город Чуст"}
             </h1>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto animate-fadeInUp delay-200">
+            <p
+              data-aos="fade-up"
+              data-aos-delay="200"
+              className="text-lg text-gray-600 max-w-3xl mx-auto"
+            >
               {language === "uz"
                 ? "Zamonaviy raqamli texnologiyalar asosida shahar infratuzilmasini boshqarish va aholining hayot sifatini yaxshilash"
                 : "Управление городской инфраструктурой и улучшение качества жизни населения на основе современных цифровых технологий"}
@@ -23,7 +47,9 @@ const AboutPage = ({ language, translations }) => {
 
           <div className="grid md:grid-cols-3 gap-8 mb-16">
             <div
-              className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-lg border border-white/40 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group animate-scaleIn delay-100"
+              data-aos="fade-up"
+              data-aos-delay="0"
+              className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-lg border border-white/40 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group"
               style={{
                 boxShadow:
                   "inset 0 2px 4px 0 rgba(0, 0, 0, 0.02), 0 8px 32px 0 rgba(31, 38, 135, 0.07)",
@@ -50,6 +76,8 @@ const AboutPage = ({ language, translations }) => {
             </div>
 
             <div
+              data-aos="fade-up"
+              data-aos-delay="100"
               className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-lg border border-white/40 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group"
               style={{
                 boxShadow:
@@ -77,7 +105,7 @@ const AboutPage = ({ language, translations }) => {
             </div>
 
             <div
-              data-aos="zoom-in"
+              data-aos="fade-up"
               data-aos-delay="200"
               className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-lg border border-white/40 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group"
               style={{

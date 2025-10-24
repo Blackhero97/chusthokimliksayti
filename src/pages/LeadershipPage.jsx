@@ -1,4 +1,18 @@
+import { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
 export default function LeadershipPage({ language, translations }) {
+  // Initialize AOS
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      easing: "ease-out-cubic",
+      once: true,
+      offset: 50,
+      delay: 0,
+    });
+  }, []);
   const leaders = [
     {
       position: "Tuman hokimi",
@@ -91,10 +105,17 @@ export default function LeadershipPage({ language, translations }) {
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
           <div className="text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
+            <h1
+              data-aos="fade-down"
+              className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6"
+            >
               Tuman Rahbariyati
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
+            <p
+              data-aos="fade-up"
+              data-aos-delay="100"
+              className="text-lg sm:text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto"
+            >
               Chust tumani hokimligi rahbariyati a'zolari bilan tanishing
             </p>
           </div>
@@ -103,7 +124,7 @@ export default function LeadershipPage({ language, translations }) {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Breadcrumb */}
-        <nav className="mb-8">
+        <nav className="mb-8" data-aos="fade-right" data-aos-delay="200">
           <div className="flex items-center space-x-2 text-sm text-gray-600">
             <a href="/" className="hover:text-blue-600 transition-colors">
               Bosh sahifa
@@ -122,6 +143,8 @@ export default function LeadershipPage({ language, translations }) {
           {leaders.map((leader, index) => (
             <div
               key={index}
+              data-aos="fade-up"
+              data-aos-delay={300 + index * 100}
               className="group bg-white rounded-2xl shadow-sm hover:shadow-xl border border-gray-100 hover:border-blue-200 transition-all duration-500 overflow-hidden"
             >
               {/* Header gradient line */}
@@ -335,7 +358,11 @@ export default function LeadershipPage({ language, translations }) {
         </div>
 
         {/* Call to Action Section */}
-        <div className="mt-16 sm:mt-20 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl text-white p-8 sm:p-12 text-center">
+        <div
+          data-aos="fade-up"
+          data-aos-delay="400"
+          className="mt-16 sm:mt-20 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl text-white p-8 sm:p-12 text-center"
+        >
           <h2 className="text-2xl sm:text-3xl font-bold mb-4">
             Savol yoki takliflaringiz bormi?
           </h2>
@@ -343,7 +370,11 @@ export default function LeadershipPage({ language, translations }) {
             Bizning rahbariyat a'zolarimiz bilan bevosita aloqaga chiqing. Har
             qanday muammo yoki takliflaringizni eshitishga tayyormiz.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div
+            data-aos="zoom-in"
+            data-aos-delay="500"
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+          >
             <a
               href="/aloqa"
               className="bg-white text-blue-600 hover:bg-gray-50 px-8 py-3 rounded-xl font-semibold transition-colors inline-flex items-center space-x-2"
