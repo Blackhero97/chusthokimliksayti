@@ -38,8 +38,7 @@ const MobileAppPage = ({ language, translations }) => {
       color: "from-blue-500 to-cyan-600",
     },
     {
-      title:
-        language === "uz" ? "Joylashuv Xizmatlari" : "Геолокация",
+      title: language === "uz" ? "Joylashuv Xizmatlari" : "Геолокация",
       description:
         language === "uz"
           ? "Yaqin atrofdagi davlat xizmatlari, avtobus bekatlari va boshqa obyektlarni topish"
@@ -57,8 +56,7 @@ const MobileAppPage = ({ language, translations }) => {
       color: "from-yellow-500 to-orange-600",
     },
     {
-      title:
-        language === "uz" ? "Muammolarni Kuzatish" : "Отслеживание",
+      title: language === "uz" ? "Muammolarni Kuzatish" : "Отслеживание",
       description:
         language === "uz"
           ? "Yuborilgan shikoyatlarning holati va yechim jarayonini real vaqtda kuzatish"
