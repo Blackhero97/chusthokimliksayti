@@ -39,7 +39,7 @@ const MobileAppPage = ({ language, translations }) => {
     },
     {
       title:
-        language === "uz" ? "Joylashuv Xizmatlari" : "Геолокационные услуги",
+        language === "uz" ? "Joylashuv Xizmatlari" : "Геолокация",
       description:
         language === "uz"
           ? "Yaqin atrofdagi davlat xizmatlari, avtobus bekatlari va boshqa obyektlarni topish"
@@ -58,7 +58,7 @@ const MobileAppPage = ({ language, translations }) => {
     },
     {
       title:
-        language === "uz" ? "Muammolarni Kuzatish" : "Отслеживание проблем",
+        language === "uz" ? "Muammolarni Kuzatish" : "Отслеживание",
       description:
         language === "uz"
           ? "Yuborilgan shikoyatlarning holati va yechim jarayonini real vaqtda kuzatish"
@@ -279,8 +279,8 @@ const MobileAppPage = ({ language, translations }) => {
                             >
                               <feature.icon className="w-5 h-5" />
                             </div>
-                            <h4 className="font-semibold text-sm text-gray-900 mb-1">
-                              {feature.title.split(" ")[0]}
+                            <h4 className="font-semibold text-xs text-gray-900 mb-1 leading-tight line-height-tight break-words">
+                              {feature.title}
                             </h4>
                             <p className="text-xs text-gray-600 line-clamp-2">
                               {feature.description.slice(0, 40)}...
